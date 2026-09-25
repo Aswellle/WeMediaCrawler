@@ -1,47 +1,52 @@
-# 🔥 MediaCrawler - Rastreador de Plataformas de Redes Sociales 🕷️
+# 🔥 MeitiCrawler - Rastreador de Plataformas de Redes Sociales 🕷️
 
 <div align="center">
 
-### 🤝 Agradecimientos Especiales a Nuestro Patrocinador Platino
-
-<a href="https://www.browseract.com/?co-from=mediacrawler&redirect=https://github.com/browser-act/skills/tree/main" target="_blank">
-  <img src="docs/static/images/browseract.png" alt="BrowserAct" width="400">
-</a>
-
-<br>
-
-<a href="https://www.browseract.com/?co-from=mediacrawler&redirect=https://github.com/browser-act/skills/tree/main" target="_blank">
-<small>BrowserAct es una herramienta de automatización de navegador diseñada para Agentes de IA, con manejo de intercepciones anti-bot, transferencia humana cuando las tareas se atascan, aislamiento paralelo de múltiples tareas y gestión independiente de múltiples cuentas, ayudando a los Agentes a completar tareas web reales de manera más estable.</small>
-</a>
-
-</div>
-
----
-
-<div align="center">
-
-<a href="https://trendshift.io/repositories/8291" target="_blank">
-  <img src="https://trendshift.io/api/badge/repositories/8291" alt="NanmiCoder%2FMediaCrawler | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
-</a>
-
-[![GitHub Stars](https://img.shields.io/github/stars/NanmiCoder/MediaCrawler?style=social)](https://github.com/NanmiCoder/MediaCrawler/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/NanmiCoder/MediaCrawler?style=social)](https://github.com/NanmiCoder/MediaCrawler/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/pulls)
-[![License](https://img.shields.io/github/license/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/blob/main/LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/Aswellle/MeitiCrawler)](https://github.com/Aswellle/MeitiCrawler/issues)
+[![License](https://img.shields.io/badge/license-Non--Commercial%20Learning%201.1-blue)](LICENSE)
 [![中文](https://img.shields.io/badge/🇨🇳_中文-Available-blue)](README.md)
 [![English](https://img.shields.io/badge/🇺🇸_English-Available-green)](README_en.md)
 [![Español](https://img.shields.io/badge/🇪🇸_Español-Current-green)](README_es.md)
 
 </div>
 
-> **Descargo de responsabilidad:**
-> 
-> Por favor, utilice este repositorio únicamente con fines de aprendizaje ⚠️⚠️⚠️⚠️, [Casos ilegales de web scraping](https://github.com/HiddenStrawberry/Crawler_Illegal_Cases_In_China)  <br>
+---
+
+> ### 🔗 Origen del Proyecto y Declaración de Fork
 >
->Todo el contenido de este repositorio es únicamente para fines de aprendizaje y referencia, y está prohibido el uso comercial. Ninguna persona u organización puede usar el contenido de este repositorio para propósitos ilegales o infringir los derechos e intereses legítimos de otros. La tecnología de web scraping involucrada en este repositorio es solo para aprendizaje e investigación, y no puede ser utilizada para rastreo a gran escala de otras plataformas u otras actividades ilegales. Este repositorio no asume ninguna responsabilidad legal por cualquier responsabilidad legal que surja del uso del contenido de este repositorio. Al usar el contenido de este repositorio, usted acepta todos los términos y condiciones de este descargo de responsabilidad.
+> **Este repositorio es un fork de [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler).**
 >
-> Haga clic para ver un descargo de responsabilidad más detallado. [Haga clic para saltar](#disclaimer)
+> El proyecto original fue creado y mantenido por **[NanmiCoder (Programador Jiang-Relakkes)](https://github.com/NanmiCoder)**, un proyecto de código abierto de recolección de datos de redes sociales multiplataforma con altas estrellas.
+>
+> Este fork, mantenido por **Aswellle**, ofrece mejoras de UI/UX y características adicionales sobre el proyecto original, con el objetivo de proporcionar una interfaz web modernizada y una mejor experiencia de usuario mientras preserva la excelente arquitectura del proyecto original.
+>
+> **Los derechos de autor, licencia y descargo de responsabilidad del proyecto original pertenecen a NanmiCoder/relakkes, mientras que las modificaciones agregadas por este fork son responsabilidad de Aswellle.** Consulte la sección [Descargo de responsabilidad](#descargo-de-responsabilidad) a continuación para obtener más detalles.
+
+---
+
+> **⚠️ Descargo de Resumen (Resumen)**
+>
+> Todo el contenido de este repositorio es únicamente para fines de aprendizaje e investigación. El uso comercial está prohibido. Ninguna persona u organización puede usar el contenido de este repositorio con fines ilegales o para infringir los derechos legítimos de otros. Por cualquier responsabilidad legal que surja del uso del contenido de este repositorio, la parte responsable correspondiente asumirá la responsabilidad de acuerdo con sus contribuciones.
+>
+> Este repositorio está licenciado bajo [NON-COMMERCIAL LEARNING LICENSE 1.1](LICENSE), con los derechos de autor originales pertenecientes a relakkes@gmail.com.
+>
+> 👉 [Haga clic para saltar al descargo de responsabilidad completo](#descargo-de-responsabilidad)
+
+---
+
+## 📝 Contribuciones de la Rama
+
+Este fork introduce los siguientes cambios principales sobre el proyecto original:
+
+- **Rediseño Completo de WebUI** — Revisión de UI/UX del frontend `webui/`, proporcionando una interfaz de operación más intuitiva y moderna
+- **Optimización de la Experiencia de Interacción** — Mejora de los flujos de trabajo principales, incluyendo configuración del rastreador, monitoreo de estado y visualización de registros
+- **Mejoras de Características y Correcciones de Errores** — Múltiples mejoras mientras se preserva la arquitectura original
+
+> Todos los registros de commits y cambios de esta rama pueden verse a través de [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:MeitiCrawler:main).
+
+---
 
 ## 📖 Introducción del Proyecto
 
@@ -54,6 +59,7 @@ Una poderosa **herramienta de recolección de datos de redes sociales multiplata
 - **Ventajas**: No necesita hacer ingeniería inversa de algoritmos de encriptación complejos, reduciendo significativamente la barrera técnica
 
 ## ✨ Características
+
 | Plataforma | Búsqueda por Palabras Clave | Rastreo de ID de Publicación Específica | Comentarios Secundarios | Página de Inicio de Creador Específico | Caché de Estado de Login | Pool de Proxy IP | Generar Nube de Palabras de Comentarios |
 | ------ | ---------- | -------------- | -------- | -------------- | ---------- | -------- | -------------- |
 | Xiaohongshu | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
@@ -65,34 +71,7 @@ Una poderosa **herramienta de recolección de datos de redes sociales multiplata
 | Zhihu   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 
 
-<strong>¡Lanzamiento Mayor de MediaCrawlerPro! ¡El código abierto no es fácil, bienvenido a suscribirse y apoyar!</strong>
-
-> Enfócate en aprender el diseño arquitectónico de proyectos maduros, no solo tecnología de rastreo. ¡La filosofía de diseño de código de la versión Pro también vale la pena estudiar en profundidad!
-
-[MediaCrawlerPro](https://github.com/MediaCrawlerPro) ventajas principales sobre la versión de código abierto:
-
-#### 🎯 Actualizaciones de Características Principales
-- ✅ **Agente de Deconstrucción de Contenido** (Nueva función)
-- ✅ **Funcionalidad de reanudación de rastreo** (Característica clave)
-- ✅ **Soporte de múltiples cuentas + pool de proxy IP** (Característica clave)
-- ✅ **Eliminar dependencia de Playwright**, más fácil de usar
-- ✅ **Soporte completo de entorno Linux**
-
-#### 🏗️ Optimización de Diseño Arquitectónico
-- ✅ **Optimización de refactorización de código**, más legible y mantenible (lógica de firma JS desacoplada)
-- ✅ **Calidad de código de nivel empresarial**, adecuado para construir proyectos de rastreo a gran escala
-- ✅ **Diseño arquitectónico perfecto**, alta escalabilidad, mayor valor de aprendizaje del código fuente
-
-#### 🎁 Características Adicionales
-- ✅ **Aplicación de escritorio descargadora de videos de redes sociales** (adecuada para aprender desarrollo full-stack)
-- ✅ **Recomendaciones de feed de página de inicio multiplataforma** (HomeFeed)
-- [ ] **Agente AI basado en análisis de comentarios está en desarrollo 🚀🚀**
-
-Haga clic para ver: [Página de Inicio del Proyecto MediaCrawlerPro](https://github.com/MediaCrawlerPro) para más información
-
 ## 🚀 Inicio Rápido
-
-> 💡 **¡El código abierto no es fácil, si este proyecto te ayuda, por favor da una ⭐ Estrella para apoyar!**
 
 ## 📋 Prerrequisitos
 
@@ -115,28 +94,39 @@ El proyecto depende de Node.js, por favor descargue e instale desde el sitio web
 
 ```shell
 # Entrar al directorio del proyecto
-cd MediaCrawler
+cd MeitiCrawler
 
 # Usar el comando uv sync para asegurar la consistencia de la versión de python y paquetes de dependencias relacionados
 uv sync
 ```
 
-### 🌐 Instalación de Controlador de Navegador
+### 🌐 Instalación de Controlador de Navegador (Opcional)
+
+> Si usa el modo CDP predeterminado (conectándose a un navegador Chrome existente), **no se requiere la instalación del controlador del navegador**. La instalación solo es necesaria cuando se usa el modo Playwright estándar.
 
 ```shell
-# Instalar controlador de navegador
+# Instalar controlador de navegador solo cuando esté en modo Playwright estándar
 uv run playwright install
 ```
 
-> **💡 Consejo**: MediaCrawler ahora soporta usar playwright para conectarse a su navegador Chrome local, resolviendo algunos problemas causados por Webdriver.
+### 🌍 Configuración del Navegador Chrome (Recomendado)
+
+El proyecto usa el modo CDP por defecto para conectarse al navegador Chrome existente del usuario, que puede reutilizar el estado de login existente, cookies, extensiones, etc. del navegador, **reduciendo significativamente el riesgo de detección anti-bot de la plataforma**.
+
+Antes de usar:
+
+1. **Instale la última versión del navegador Chrome** (versión >= 144), [Descargar](https://www.google.com/chrome/)
+2. **Habilite la depuración remota**: Escriba `chrome://inspect/#remote-debugging` en la barra de direcciones de Chrome y marque **"Permitir depuración remota para esta instancia del navegador"**
+3. La página muestra `Server running at: 127.0.0.1:9222`, lo que indica que está listo
+
+> 💡 **Consejo**: Después de ejecutar el rastreador, aparecerá un diálogo de confirmación en Chrome. Haga clic en "Aceptar" para continuar. El programa esperará la confirmación del usuario; complete la operación en 60 segundos.
 >
-> Actualmente, `xhs` y `dy` están disponibles usando el modo CDP para conectarse a navegadores locales. Si es necesario, verifique los elementos de configuración en `config/base_config.py`.
+> Si no desea usar el modo CDP, puede establecer `ENABLE_CDP_MODE = False` en `config/base_config.py` para cambiar al modo Playwright estándar.
 
 ## 🚀 Ejecutar Programa Rastreador
 
 ```shell
-# El proyecto no habilita el modo de rastreo de comentarios por defecto. Si necesita comentarios, por favor modifique la variable ENABLE_GET_COMMENTS en config/base_config.py
-# Otras opciones soportadas también pueden verse en config/base_config.py con comentarios en chino
+# Ver elementos de configuración en config/base_config.py, con comentarios disponibles
 
 # Leer palabras clave del archivo de configuración para buscar publicaciones relacionadas y rastrear información de publicaciones y comentarios
 uv run main.py --platform xhs --lt qrcode --type search
@@ -150,14 +140,19 @@ uv run main.py --platform xhs --lt qrcode --type detail
 uv run main.py --help
 ```
 
-## Soporte WebUI
+> ⚠️ **Recordatorio del Servicio Backend**: La siguiente interfaz visual WebUI depende del servicio API backend para funcionar. Antes del uso inicial, por favor **inicie el backend por separado primero**:
+>
+> ```shell
+> uv run uvicorn api.main:app --port 8080 --reload
+> ```
+>
+> Después de que el backend se inicie exitosamente, abra la interfaz WebUI (`http://localhost:5173/` o `http://localhost:8080`). Si el backend no se ha iniciado, la página llamará a `/api/env/check` para una verificación de entorno en la primera visita y fallará. En este punto, puede hacer clic en "Omitir verificación" para omitirla temporalmente, pero la funcionalidad del rastreador no estará disponible.
 
-<details>
-<summary>🖥️ <strong>Interfaz de Operación Visual WebUI</strong></summary>
+## 🖥️ Interfaz de Operación Visual WebUI
 
-MediaCrawler proporciona una interfaz de operación visual basada en web, permitiéndole usar fácilmente las funciones del rastreador sin línea de comandos.
+MeitiCrawler proporciona una interfaz de operación visual basada en web, permitiéndole usar fácilmente las funciones del rastreador sin la línea de comandos.
 
-#### Desarrollo (recomendado)
+#### Desarrollo (Recomendado)
 
 Para el desarrollo, debe iniciar tanto el servicio API backend como el servidor de desarrollo Vite frontend:
 
@@ -191,7 +186,7 @@ Luego inicie solo el servidor API:
 uv run uvicorn api.main:app --port 8080 --reload
 ```
 
-Después de iniciar exitosamente, visite `http://localhost:8080` para abrir la interfaz WebUI.
+Después de eso, visite `http://localhost:8080`.
 
 #### Características de WebUI
 
@@ -201,12 +196,16 @@ Después de iniciar exitosamente, visite `http://localhost:8080` para abrir la i
 
 #### Vista Previa de la Interfaz
 
-<img src="docs/static/images/img_8.png" alt="Vista Previa de Interfaz WebUI">
+| Panel de Resumen | Configuración del Rastreador |
+| --- | --- |
+| ![Panel de Resumen](docs/static/images/webui_overview.png) | ![Configuración del Rastreador](docs/static/images/webui_config.png) |
 
-</details>
+| Registros de Ejecución | <!-- Reservado --> |
+| --- | --- |
+| ![Registros de Ejecución](docs/static/images/webui_logs.png) | — |
 
-<details>
-<summary>🔗 <strong>Usando gestión de entorno venv nativo de Python (No recomendado)</strong></summary>
+
+## 🔗 Usando Gestión de Entorno venv Nativo de Python (No Recomendado)
 
 #### Crear y activar entorno virtual de Python
 
@@ -214,10 +213,10 @@ Después de iniciar exitosamente, visite `http://localhost:8080` para abrir la i
 
 ```shell
 # Entrar al directorio raíz del proyecto
-cd MediaCrawler
+cd MeitiCrawler
 
 # Crear entorno virtual
-# Mi versión de python es: 3.9.6, las librerías en requirements.txt están basadas en esta versión
+# Las librerías en requirements.txt están basadas en python 3.11
 # Si usa otras versiones de python, las librerías en requirements.txt pueden no ser compatibles, por favor resuelva por su cuenta
 python -m venv venv
 
@@ -244,7 +243,7 @@ playwright install
 
 ```shell
 # El proyecto no habilita el modo de rastreo de comentarios por defecto. Si necesita comentarios, por favor modifique la variable ENABLE_GET_COMMENTS en config/base_config.py
-# Otras opciones soportadas también pueden verse en config/base_config.py con comentarios en chino
+# Otras opciones soportadas también pueden verse en config/base_config.py con comentarios
 
 # Leer palabras clave del archivo de configuración para buscar publicaciones relacionadas y rastrear información de publicaciones y comentarios
 python main.py --platform xhs --lt qrcode --type search
@@ -258,122 +257,75 @@ python main.py --platform xhs --lt qrcode --type detail
 python main.py --help
 ```
 
-</details>
 
 
 ## 💾 Almacenamiento de Datos
 
-MediaCrawler soporta múltiples métodos de almacenamiento de datos, incluyendo CSV, JSON, JSONL, Excel, SQLite y bases de datos MySQL.
+MeitiCrawler soporta múltiples métodos de almacenamiento de datos, incluyendo CSV, JSON, JSONL, Excel, SQLite y bases de datos MySQL.
 
 📖 **Para instrucciones de uso detalladas, por favor vea: [Guía de Almacenamiento de Datos](docs/data_storage_guide.md)**
 
 
-[🚀 ¡Lanzamiento Mayor de MediaCrawlerPro 🚀! ¡Más características, mejor diseño arquitectónico!](https://github.com/MediaCrawlerPro)
-
-
-### 💬 Grupos de Discusión
-- **Grupo de Discusión WeChat**: [Haga clic para unirse](https://nanmicoder.github.io/MediaCrawler/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.html)
-- **Cuenta de Bilibili**: [Sígueme](https://space.bilibili.com/434377496), compartiendo conocimientos de tecnología de IA y rastreo
-
-
-### 💰 Exhibición de Patrocinadores
-
-<table>
-  <thead>
-    <tr>
-      <th width="220">Patrocinador</th>
-      <th align="left">Introducción</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad"><img src="docs/static/images/tikhub_banner_zh.png" width="180" alt="TikHub"></a>
-      </td>
-      <td valign="middle">
-        <a href="https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad">TikHub.io</a> proporciona 900+ interfaces de datos altamente estables, cubriendo 14+ plataformas principales nacionales e internacionales incluyendo TK, DY, XHS, Y2B, Ins, X, etc. Soporta APIs de datos públicos multidimensionales para usuarios, contenido, productos, comentarios, etc., con 40M+ conjuntos de datos estructurados limpios. Use el código de invitación <code>cfzyejV9</code> para <a href="https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad">registrarse y recargar</a>, y obtenga $2 adicionales de bonificación.
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://bloome.im/login?ref=NanmiCoder"><img src="docs/static/images/bloome_logo.png" width="180" alt="Bloome"></a>
-      </td>
-      <td valign="middle">
-        <a href="https://bloome.im/login?ref=NanmiCoder">Bloome</a> es una plataforma de IM de agentes de IA: varios agentes de IA (Claude, ChatGPT, DeepSeek, etc.) colaboran contigo en una misma conversación como miembros de un equipo, dividiéndose el trabajo automáticamente y revisándose entre sí, y generando directamente tablas, documentos y paneles visuales. Sin configuración, funciona en la nube, disponible tanto en web como en móvil, y puedes compartir tus agentes configurados con tu equipo con un solo clic. 👉 <a href="https://bloome.im/login?ref=NanmiCoder">Prueba Bloome</a>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://go.nodemaven.com/MediaCrawler"><img src="docs/static/images/nodemaven_logo.svg" width="180" alt="NodeMaven"></a>
-      </td>
-      <td valign="middle">
-        <a href="https://go.nodemaven.com/MediaCrawler">NodeMaven</a> ofrece proxies fiables y de alta calidad para automatización, web scraping, investigación SEO y gestión de redes sociales. El servicio incluye una disponibilidad del 99,9%, sesiones persistentes de hasta 7 días, filtrado de IP en todos los proxies (puntuación de fraude inferior al 97%), sin KYC y reembolso de hasta el 10% del tráfico. Los usuarios de MediaCrawler obtienen un 35% de descuento en proxies móviles y residenciales con el código <code>CRAWLER35</code>, y un 40% de descuento en proxies ISP (estáticos) con <code>CRAWLER40</code>. 👉 <a href="https://go.nodemaven.com/MediaCrawler">Visita NodeMaven</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
----
-
-### 🤝 Conviértase en Patrocinador
-
-¡Conviértase en patrocinador y muestre su producto aquí, obteniendo exposición masiva diariamente!
-
-**Información de Contacto**:
-- WeChat: `relakkes`
-- Email: `relakkes@gmail.com`
----
-
-### 📚 Otros
-- **Preguntas Frecuentes**: [Documentación Completa de MediaCrawler](https://nanmicoder.github.io/MediaCrawler/)
-- **Tutorial de Rastreador para Principiantes**: [Tutorial Gratuito CrawlerTutorial](https://github.com/NanmiCoder/CrawlerTutorial)
-- **Proyecto de Código Abierto de Rastreador de Noticias**: [NewsCrawlerCollection](https://github.com/NanmiCoder/NewsCrawlerCollection)
-
-
-## ⭐ Gráfico de Tendencia de Estrellas
-
-¡Si este proyecto te ayuda, por favor da una ⭐ Estrella para apoyar y que más personas vean MediaCrawler!
-
-[![Star History Chart](https://api.star-history.com/svg?repos=NanmiCoder/MediaCrawler&type=Date)](https://star-history.com/#NanmiCoder/MediaCrawler&Date)
-
-
 ## 📚 Referencias
 
-- **Repositorio de Firma Xiaohongshu**: [Repositorio de firma xhs de Cloxl](https://github.com/Cloxl/xhshow)
+- **Repositorio del Proyecto Original**: [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler)
+- **Repositorio de Firmas Xiaohongshu**: [Repositorio de firmas xhs de Cloxl](https://github.com/Cloxl/xhshow)
 - **Cliente Xiaohongshu**: [Repositorio xhs de ReaJason](https://github.com/ReaJason/xhs)
 - **Reenvío de SMS**: [Repositorio de referencia SmsForwarder](https://github.com/pppscn/SmsForwarder)
-- **Herramienta de Penetración de Intranet**: [Documentación oficial de ngrok](https://ngrok.com/docs/)
+- **Herramienta de Penetración Interna**: [Documentación oficial de ngrok](https://ngrok.com/docs/)
 
+
+---
 
 # Descargo de Responsabilidad
+
+Este repositorio contiene dos descargos de responsabilidad:
+1. **Descargo de Responsabilidad del Proyecto Original** — Proporcionado por NanmiCoder/relakkes, aplicable al código del proyecto original
+2. **Descargo de Responsabilidad de la Rama Fork** — Proporcionado por Aswellle, aplicable a las modificaciones en este fork
+
+---
+
+## I. Descargo de Responsabilidad del Proyecto Original
+
+> El siguiente texto de descargo de responsabilidad se preserva del proyecto original [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler).
+> Los derechos de autor originales pertenecen a relakkes@gmail.com, licenciado bajo [NON-COMMERCIAL LEARNING LICENSE 1.1](LICENSE).
+
 <div id="disclaimer">
 
-## 1. Propósito y Naturaleza del Proyecto
-Este proyecto (en adelante denominado "este proyecto") fue creado como una herramienta de investigación técnica y aprendizaje, con el objetivo de explorar y aprender tecnologías de recolección de datos de red. Este proyecto se enfoca en la investigación de tecnologías de rastreo de datos para plataformas de redes sociales, destinado a proporcionar a estudiantes e investigadores propósitos de intercambio técnico.
+### 1. Propósito y Naturaleza del Proyecto
+Este proyecto (en adelante denominado "este proyecto") fue creado como una herramienta de investigación técnica y aprendizaje, con el objetivo de explorar y aprender tecnología de recolección de datos web. Este proyecto se centra en la investigación de tecnología de rastreo de datos para plataformas de redes sociales, destinada al intercambio y uso por parte de estudiantes e investigadores.
 
-## 2. Declaración de Cumplimiento Legal
-El desarrollador del proyecto (en adelante denominado "desarrollador") recuerda solemnemente a los usuarios que cumplan estrictamente con las leyes y regulaciones relevantes de la República Popular China al descargar, instalar y usar este proyecto, incluyendo pero no limitado a la "Ley de Ciberseguridad de la República Popular China", "Ley de Contraespionaje de la República Popular China" y todas las leyes y políticas nacionales aplicables. Los usuarios deberán asumir todas las responsabilidades legales que puedan surgir del uso de este proyecto.
+### 2. Declaración de Cumplimiento Legal
+El desarrollador de este proyecto (en adelante denominado "el desarrollador") recuerda solemnemente a los usuarios que cumplan estrictamente con las leyes y regulaciones relevantes de la República Popular China al descargar, instalar y usar este proyecto, incluyendo pero no limitándose a la "Ley de Ciberseguridad de la República Popular China", la "Ley de Contraespionaje de la República Popular China" y todas las leyes y políticas nacionales aplicables. Los usuarios asumirán todas las responsabilidades legales que puedan surgir del uso de este proyecto.
 
-## 3. Restricciones de Propósito de Uso
-Este proyecto está estrictamente prohibido de ser utilizado para cualquier propósito ilegal o actividades comerciales que no sean de aprendizaje o investigación. Este proyecto no puede ser utilizado para ninguna forma de intrusión ilegal en sistemas informáticos de otras personas, ni puede ser utilizado para cualquier actividad que infrinja los derechos de propiedad intelectual de otros u otros derechos e intereses legítimos. Los usuarios deben asegurar que su uso de este proyecto sea puramente para aprendizaje personal e investigación técnica, y no puede ser utilizado para ninguna forma de actividades ilegales.
+### 3. Declaración de Propiedad Intelectual
+El desarrollador respeta y protege los derechos de propiedad intelectual de todas las partes. El código fuente y el contenido relacionado proporcionados por este proyecto son únicamente para fines de intercambio técnico y aprendizaje. Los usuarios no deben usar este proyecto para ninguna forma de actividades comerciales o infringir los derechos legales de otros.
 
-## 4. Descargo de Responsabilidad
-El desarrollador ha hecho todos los esfuerzos para asegurar la legitimidad y seguridad de este proyecto, pero no asume responsabilidad por ninguna forma de pérdidas directas o indirectas que puedan surgir del uso de este proyecto por parte de los usuarios. Incluyendo pero no limitado a cualquier pérdida de datos, daño de equipos, litigios legales, etc. causados por el uso de este proyecto.
+### 4. Descargo de Responsabilidad
+El desarrollador no asume ninguna responsabilidad legal por cualquier forma de daños directos, indirectos, incidentales, especiales o consecuentes que surjan del uso de este proyecto. Los usuarios asumen todos los riesgos de usar este proyecto.
 
-## 5. Declaración de Propiedad Intelectual
-Los derechos de propiedad intelectual de este proyecto pertenecen al desarrollador. Este proyecto está protegido por la ley de derechos de autor y tratados internacionales de derechos de autor, así como otras leyes y tratados de propiedad intelectual. Los usuarios pueden descargar y usar este proyecto bajo la premisa de cumplir con esta declaración y las leyes y regulaciones relevantes.
+### 5. Responsabilidad del Usuario
+Los usuarios serán responsables de sus propias acciones al usar este proyecto y asegurarán que su uso de este proyecto cumpla con las leyes y regulaciones locales. Los usuarios no deben usar este proyecto para ninguna actividad ilegal.
 
-## 6. Derechos de Interpretación Final
-El desarrollador tiene los derechos de interpretación final con respecto a este proyecto. El desarrollador se reserva el derecho de cambiar o actualizar este descargo de responsabilidad en cualquier momento sin previo aviso.
+### 6. Derechos de Interpretación Final
+El derecho a interpretar este descargo de responsabilidad pertenece al desarrollador del proyecto original. El descargo de responsabilidad se aplica a la versión obtenida por los usuarios de este repositorio.
+
 </div>
 
+---
 
-## 🙏 Agradecimientos
+## II. Descargo de Responsabilidad de la Rama Fork
 
-### Soporte de Licencia de Código Abierto de JetBrains
+> El siguiente descargo de responsabilidad es proporcionado por Aswellle para las modificaciones realizadas en esta rama fork (incluyendo pero no limitándose a WebUI, experiencia interactiva, etc.).
 
-¡Gracias a JetBrains por proporcionar soporte de licencia de código abierto gratuito para este proyecto!
+### 1. Alcance de las Modificaciones
+Esta rama fork es modificada por Aswellle basándose en el código del proyecto original. El alcance de las modificaciones incluye el frontend WebUI, la lógica del backend API, la optimización de la estructura del proyecto, y más.
 
-<a href="https://www.jetbrains.com/?from=MediaCrawler">
-    <img src="https://www.jetbrains.com/company/brand/img/jetbrains_logo.png" width="100" alt="JetBrains" />
-</a>
+### 2. Descargo de Responsabilidad por Modificaciones
+Los problemas que surjan de las modificaciones en esta rama fork (incluyendo pero no limitándose a defectos de código, anomalías funcionales, pérdida de datos, etc.) son responsabilidad de Aswellle. Los usuarios deben evaluar los riesgos por sí mismos al usar esta rama fork.
+
+### 3. Aviso de Derechos de Autor
+Los derechos de autor del proyecto original pertenecen a NanmiCoder/relakkes. Los derechos de autor de las modificaciones realizadas en esta rama fork pertenecen a Aswellle. Al distribuir o usar esta rama fork, los usuarios deberán conservar los avisos de derechos de autor del proyecto original y las modificaciones al mismo tiempo.
+
+### 4. Retroalimentación de Problemas
+Si encuentra problemas que se originan en **modificaciones en este fork** (WebUI, experiencia interactiva, etc.), por favor proporcione retroalimentación a través de los [Issues](https://github.com/Aswellle/MeitiCrawler/issues) de este repositorio.

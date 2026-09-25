@@ -1,47 +1,52 @@
-# 🔥 MediaCrawler - Social Media Platform Crawler 🕷️
+# 🔥 MeitiCrawler - Social Media Platform Crawler 🕷️
 
 <div align="center">
 
-### 🤝 Special Thanks to Our Platinum Sponsor
-
-<a href="https://www.browseract.com/?co-from=mediacrawler&redirect=https://github.com/browser-act/skills/tree/main" target="_blank">
-  <img src="docs/static/images/browseract.png" alt="BrowserAct" width="400">
-</a>
-
-<br>
-
-<a href="https://www.browseract.com/?co-from=mediacrawler&redirect=https://github.com/browser-act/skills/tree/main" target="_blank">
-<small>BrowserAct is a browser automation tool designed for AI Agents, featuring anti-bot interception handling, human handoff when tasks get stuck, multi-task parallel isolation, and multi-account independent management, helping Agents complete real-world web tasks more reliably.</small>
-</a>
-
-</div>
-
----
-
-<div align="center">
-
-<a href="https://trendshift.io/repositories/8291" target="_blank">
-  <img src="https://trendshift.io/api/badge/repositories/8291" alt="NanmiCoder%2FMediaCrawler | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/>
-</a>
-
-[![GitHub Stars](https://img.shields.io/github/stars/NanmiCoder/MediaCrawler?style=social)](https://github.com/NanmiCoder/MediaCrawler/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/NanmiCoder/MediaCrawler?style=social)](https://github.com/NanmiCoder/MediaCrawler/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/pulls)
-[![License](https://img.shields.io/github/license/NanmiCoder/MediaCrawler)](https://github.com/NanmiCoder/MediaCrawler/blob/main/LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/Aswellle/MeitiCrawler)](https://github.com/Aswellle/MeitiCrawler/issues)
+[![License](https://img.shields.io/badge/license-Non--Commercial%20Learning%201.1-blue)](LICENSE)
 [![中文](https://img.shields.io/badge/🇨🇳_中文-Available-blue)](README.md)
 [![English](https://img.shields.io/badge/🇺🇸_English-Current-green)](README_en.md)
 [![Español](https://img.shields.io/badge/🇪🇸_Español-Available-green)](README_es.md)
 
 </div>
 
-> **Disclaimer:**
-> 
-> Please use this repository for learning purposes only ⚠️⚠️⚠️⚠️, [Web scraping illegal cases](https://github.com/HiddenStrawberry/Crawler_Illegal_Cases_In_China)  <br>
+---
+
+> ### 🔗 Project Origin & Fork Declaration
 >
->All content in this repository is for learning and reference purposes only, and commercial use is prohibited. No person or organization may use the content of this repository for illegal purposes or infringe upon the legitimate rights and interests of others. The web scraping technology involved in this repository is only for learning and research, and may not be used for large-scale crawling of other platforms or other illegal activities. This repository assumes no legal responsibility for any legal liability arising from the use of the content of this repository. By using the content of this repository, you agree to all terms and conditions of this disclaimer.
+> **This repository is a fork of [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler).**
 >
-> Click to view a more detailed disclaimer. [Click to jump](#disclaimer)
+> The original project was created and maintained by **[NanmiCoder (Programmer Jiang-Relakkes)](https://github.com/NanmiCoder)**, a highly-starred open-source multi-platform social media data collection project.
+>
+> This fork, maintained by **Aswellle**, delivers UI/UX improvements and feature enhancements on top of the original project, aiming to provide a modernized web interface and a better user experience while preserving the excellent architecture of the original project.
+>
+> **The copyright, license, and disclaimer of the original project belong to NanmiCoder/relakkes, while modifications added by this fork are the responsibility of Aswellle.** See the [Disclaimer](#disclaimer) section below for details.
+
+---
+
+> **⚠️ Disclaimer (Summary)**
+>
+> All content in this repository is for learning and research purposes only. Commercial use is prohibited. No person or organization may use the content of this repository for illegal purposes or to infringe upon the legitimate rights of others. For any legal liability arising from the use of this repository's content, the corresponding responsible party shall bear the liability according to their contributions.
+>
+> This repository is licensed under [NON-COMMERCIAL LEARNING LICENSE 1.1](LICENSE), with original copyright belonging to relakkes@gmail.com.
+>
+> 👉 [Click to jump to the full disclaimer](#disclaimer)
+
+---
+
+## 📝 Branch Contributions
+
+This fork introduces the following major changes on top of the original project:
+
+- **Complete WebUI Redesign** — UI/UX overhaul of the `webui/` frontend, providing a more intuitive and modern operation interface
+- **Interaction Experience Optimization** — Improved core workflows including crawler configuration, status monitoring, and log viewing
+- **Feature Enhancements & Bug Fixes** — Multiple improvements while preserving the original architecture
+
+> All commits and change records of this branch can be viewed via [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:MeitiCrawler:main).
+
+---
 
 ## 📖 Project Introduction
 
@@ -54,6 +59,7 @@ A powerful **multi-platform social media data collection tool** that supports cr
 - **Advantages**: No need to reverse complex encryption algorithms, significantly lowering the technical barrier
 
 ## ✨ Features
+
 | Platform | Keyword Search | Specific Post ID Crawling | Secondary Comments | Specific Creator Homepage | Login State Cache | IP Proxy Pool | Generate Comment Word Cloud |
 | ------ | ---------- | -------------- | -------- | -------------- | ---------- | -------- | -------------- |
 | Xiaohongshu | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
@@ -65,34 +71,7 @@ A powerful **multi-platform social media data collection tool** that supports cr
 | Zhihu   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 
 
-<strong>MediaCrawlerPro Major Release! Open source is not easy, welcome to subscribe and support!</strong>
-
-> Focus on learning mature project architectural design, not just crawling technology. The code design philosophy of the Pro version is equally worth in-depth study!
-
-[MediaCrawlerPro](https://github.com/MediaCrawlerPro) core advantages over the open-source version:
-
-#### 🎯 Core Feature Upgrades
-- ✅ **Content Deconstruction Agent** (New feature)
-- ✅ **Resume crawling functionality** (Key feature)
-- ✅ **Multi-account + IP proxy pool support** (Key feature)
-- ✅ **Remove Playwright dependency**, easier to use
-- ✅ **Complete Linux environment support**
-
-#### 🏗️ Architectural Design Optimization
-- ✅ **Code refactoring optimization**, more readable and maintainable (decoupled JS signature logic)
-- ✅ **Enterprise-level code quality**, suitable for building large-scale crawler projects
-- ✅ **Perfect architectural design**, high scalability, greater source code learning value
-
-#### 🎁 Additional Features
-- ✅ **Social media video downloader desktop app** (suitable for learning full-stack development)
-- ✅ **Multi-platform homepage feed recommendations** (HomeFeed)
-- [ ] **AI Agent based on comment analysis is under development 🚀🚀**
-
-Click to view: [MediaCrawlerPro Project Homepage](https://github.com/MediaCrawlerPro) for more information
-
 ## 🚀 Quick Start
-
-> 💡 **Open source is not easy, if this project helps you, please give a ⭐ Star to support!**
 
 ## 📋 Prerequisites
 
@@ -115,28 +94,39 @@ The project depends on Node.js, please download and install from the official we
 
 ```shell
 # Enter project directory
-cd MediaCrawler
+cd MeitiCrawler
 
 # Use uv sync command to ensure consistency of python version and related dependency packages
 uv sync
 ```
 
-### 🌐 Browser Driver Installation
+### 🌐 Browser Driver Installation (Optional)
+
+> If using the default CDP mode (connecting to an existing Chrome browser), **no browser driver installation is required**. Installation is only needed when using standard Playwright mode.
 
 ```shell
-# Install browser driver
+# Install browser driver only when in standard Playwright mode
 uv run playwright install
 ```
 
-> **💡 Tip**: MediaCrawler now supports using playwright to connect to your local Chrome browser, solving some issues caused by Webdriver.
+### 🌍 Chrome Browser Configuration (Recommended)
+
+The project uses CDP mode by default to connect to the user's existing Chrome browser, which can reuse the browser's existing login state, cookies, extensions, etc., **significantly reducing the risk of platform anti-bot detection**.
+
+Before using:
+
+1. **Install the latest version of Chrome browser** (version >= 144), [Download](https://www.google.com/chrome/)
+2. **Enable remote debugging**: Type `chrome://inspect/#remote-debugging` in the Chrome address bar and check **"Allow remote debugging for this browser instance"**
+3. The page displays `Server running at: 127.0.0.1:9222`, indicating it is ready
+
+> 💡 **Tip**: After running the crawler, a confirmation dialog will appear in Chrome. Click "Accept" to proceed. The program will wait for user confirmation; complete the operation within 60 seconds.
 >
-> Currently, `xhs` and `dy` are available using CDP mode to connect to local browsers. If needed, check the configuration items in `config/base_config.py`.
+> If you do not want to use CDP mode, you can set `ENABLE_CDP_MODE = False` in `config/base_config.py` to switch to standard Playwright mode.
 
 ## 🚀 Run Crawler Program
 
 ```shell
-# The project does not enable comment crawling mode by default. If you need comments, please modify the ENABLE_GET_COMMENTS variable in config/base_config.py
-# Other supported options can also be viewed in config/base_config.py with Chinese comments
+# View configuration items in config/base_config.py, with English comments available
 
 # Read keywords from configuration file to search related posts and crawl post information and comments
 uv run main.py --platform xhs --lt qrcode --type search
@@ -150,14 +140,19 @@ uv run main.py --platform xhs --lt qrcode --type detail
 uv run main.py --help
 ```
 
-## WebUI Support
+> ⚠️ **Backend Service Reminder**: The following WebUI visual interface depends on the backend API service to run. Before first use, please **start the backend separately first**:
+>
+> ```shell
+> uv run uvicorn api.main:app --port 8080 --reload
+> ```
+>
+> After the backend starts successfully, open the WebUI interface (`http://localhost:5173/` or `http://localhost:8080`). If the backend is not started, the page will call `/api/env/check` for an environment check on first visit and fail. At this point, you can click "Skip Check" to bypass it temporarily, but crawler functionality will be unavailable.
 
-<details>
-<summary>🖥️ <strong>WebUI Visual Operation Interface</strong></summary>
+## 🖥️ WebUI Visual Operation Interface
 
-MediaCrawler provides a web-based visual operation interface, allowing you to easily use crawler features without command line.
+MeitiCrawler provides a web-based visual operation interface, allowing you to easily use crawler features without the command line.
 
-#### Development (recommended)
+#### Development (Recommended)
 
 For development, you need to start both the backend API service and the frontend Vite dev server:
 
@@ -191,7 +186,7 @@ Then start only the API server:
 uv run uvicorn api.main:app --port 8080 --reload
 ```
 
-After successful startup, visit `http://localhost:8080` to open the WebUI interface.
+After that, visit `http://localhost:8080`.
 
 #### WebUI Features
 
@@ -201,12 +196,16 @@ After successful startup, visit `http://localhost:8080` to open the WebUI interf
 
 #### Interface Preview
 
-<img src="docs/static/images/img_8.png" alt="WebUI Interface Preview">
+| Overview Panel | Crawler Configuration |
+| --- | --- |
+| ![Overview Panel](docs/static/images/webui_overview.png) | ![Crawler Configuration](docs/static/images/webui_config.png) |
 
-</details>
+| Run Logs | <!-- Reserved --> |
+| --- | --- |
+| ![Run Logs](docs/static/images/webui_logs.png) | — |
 
-<details>
-<summary>🔗 <strong>Using Python native venv environment management (Not recommended)</strong></summary>
+
+## 🔗 Using Python Native venv Environment Management (Not Recommended)
 
 #### Create and activate Python virtual environment
 
@@ -214,10 +213,10 @@ After successful startup, visit `http://localhost:8080` to open the WebUI interf
 
 ```shell
 # Enter project root directory
-cd MediaCrawler
+cd MeitiCrawler
 
 # Create virtual environment
-# My python version is: 3.9.6, the libraries in requirements.txt are based on this version
+# The libraries in requirements.txt are based on python 3.11
 # If using other python versions, the libraries in requirements.txt may not be compatible, please resolve on your own
 python -m venv venv
 
@@ -244,7 +243,7 @@ playwright install
 
 ```shell
 # The project does not enable comment crawling mode by default. If you need comments, please modify the ENABLE_GET_COMMENTS variable in config/base_config.py
-# Other supported options can also be viewed in config/base_config.py with Chinese comments
+# Other supported options can also be viewed in config/base_config.py with comments
 
 # Read keywords from configuration file to search related posts and crawl post information and comments
 python main.py --platform xhs --lt qrcode --type search
@@ -258,130 +257,75 @@ python main.py --platform xhs --lt qrcode --type detail
 python main.py --help
 ```
 
-</details>
 
 
 ## 💾 Data Storage
 
-MediaCrawler supports multiple data storage methods, including CSV, JSON, JSONL, Excel, SQLite, and MySQL databases.
+MeitiCrawler supports multiple data storage methods, including CSV, JSON, JSONL, Excel, SQLite, and MySQL databases.
 
 📖 **For detailed usage instructions, please see: [Data Storage Guide](docs/data_storage_guide.md)**
-
----
-
-[🚀 MediaCrawlerPro Major Release 🚀! More features, better architectural design!](https://github.com/MediaCrawlerPro)
-
-### 💬 Discussion Groups
-- **WeChat Discussion Group**: [Click to join](https://nanmicoder.github.io/MediaCrawler/%E5%BE%AE%E4%BF%A1%E4%BA%A4%E6%B5%81%E7%BE%A4.html)
-- **Bilibili Account**: [Follow me](https://space.bilibili.com/434377496), sharing AI and crawler technology knowledge
-
-
-### 💰 Sponsor Display
-
-<table>
-  <thead>
-    <tr>
-      <th width="220">Sponsor</th>
-      <th align="left">Introduction</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad"><img src="docs/static/images/tikhub_banner_zh.png" width="180" alt="TikHub"></a>
-      </td>
-      <td valign="middle">
-        <a href="https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad">TikHub.io</a> provides 900+ highly stable data interfaces, covering 14+ mainstream domestic and international platforms including TK, DY, XHS, Y2B, Ins, X, etc. Supports multi-dimensional public data APIs for users, content, products, comments, etc., with 40M+ cleaned structured datasets. Use invitation code <code>cfzyejV9</code> to <a href="https://tikhub.io/?utm_source=github.com/NanmiCoder/MediaCrawler&utm_medium=marketing_social&utm_campaign=retargeting&utm_content=carousel_ad">register and recharge</a>, and get an additional $2 bonus.
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=mei%27da%27c%27rmeidacrawler"><img width="160" alt="Atlas Cloud" src="docs/static/images/atlas_cloud_logo_black.png#gh-light-mode-only"><img width="160" alt="Atlas Cloud" src="docs/static/images/atlas_cloud_logo_white.png#gh-dark-mode-only"></a>
-      </td>
-      <td valign="middle">
-        <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=mei%27da%27c%27rmeidacrawler">Atlas Cloud</a> is a full-modal AI inference platform that gives developers a single AI API to access video generation, image generation, and LLM APIs. Instead of managing multiple vendor integrations, you connect once and get unified access to 300+ curated models across all modalities. Check out Atlas Cloud's new <a href="https://www.atlascloud.ai/console/coding-plan">coding plan promotion</a> for more budget-friendly API access.
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://bloome.im/login?ref=NanmiCoder"><img src="docs/static/images/bloome_logo.png" width="180" alt="Bloome"></a>
-      </td>
-      <td valign="middle">
-        <a href="https://bloome.im/login?ref=NanmiCoder">Bloome</a> is an AI Agent IM platform — multiple AI agents (Claude, ChatGPT, DeepSeek, etc.) collaborate with you in a single conversation like team members, automatically dividing up the work and cross-checking each other, and directly producing tables, documents, and visual dashboards. Zero config, runs in the cloud, works on both web and mobile, and you can share your configured agents with your team in one click. 👉 <a href="https://bloome.im/login?ref=NanmiCoder">Try Bloome</a>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://go.nodemaven.com/MediaCrawler"><img src="docs/static/images/nodemaven_logo.svg" width="180" alt="NodeMaven"></a>
-      </td>
-      <td valign="middle">
-        <a href="https://go.nodemaven.com/MediaCrawler">NodeMaven</a> provides reliable, high-quality proxies for automation, web scraping, SEO research, and social media management. Features include 99.9% uptime, sticky sessions up to 7 days, IP filtering across all proxies (fraud score below 97%), no KYC, and traffic cashback of up to 10%. MediaCrawler users get 35% off mobile and residential proxies with code <code>CRAWLER35</code>, and 40% off ISP (static) proxies with code <code>CRAWLER40</code>. 👉 <a href="https://go.nodemaven.com/MediaCrawler">Visit NodeMaven</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
----
-
-### 🤝 Become a Sponsor
-
-Become a sponsor and showcase your product here, getting massive exposure daily!
-
-**Contact Information**:
-- WeChat: `relakkes`
-- Email: `relakkes@gmail.com`
----
-
-### 📚 Other
-- **FAQ**: [MediaCrawler Complete Documentation](https://nanmicoder.github.io/MediaCrawler/)
-- **Crawler Beginner Tutorial**: [CrawlerTutorial Free Tutorial](https://github.com/NanmiCoder/CrawlerTutorial)
-- **News Crawler Open Source Project**: [NewsCrawlerCollection](https://github.com/NanmiCoder/NewsCrawlerCollection)
-
-
-## ⭐ Star Trend Chart
-
-If this project helps you, please give a ⭐ Star to support and let more people see MediaCrawler!
-
-[![Star History Chart](https://api.star-history.com/svg?repos=NanmiCoder/MediaCrawler&type=Date)](https://star-history.com/#NanmiCoder/MediaCrawler&Date)
 
 
 ## 📚 References
 
-- **Xiaohongshu Signature Repository**: [Cloxl's xhs signature repository](https://github.com/Cloxl/xhshow)
+- **Original Project Repository**: [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler)
+- **Xiaohongshu Sign Repository**: [Cloxl's xhs sign repository](https://github.com/Cloxl/xhshow)
 - **Xiaohongshu Client**: [ReaJason's xhs repository](https://github.com/ReaJason/xhs)
 - **SMS Forwarding**: [SmsForwarder reference repository](https://github.com/pppscn/SmsForwarder)
-- **Intranet Penetration Tool**: [ngrok official documentation](https://ngrok.com/docs/)
+- **Intrusion Penetration Tool**: [ngrok official documentation](https://ngrok.com/docs/)
 
+
+---
 
 # Disclaimer
+
+This repository contains two disclaimers:
+1. **Original Project Disclaimer** — Provided by NanmiCoder/relakkes, applicable to the original project code
+2. **Fork Branch Disclaimer** — Provided by Aswellle, applicable to modifications in this fork
+
+---
+
+## I. Original Project Disclaimer
+
+> The following disclaimer text is preserved from the [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) original project.
+> Original copyright belongs to relakkes@gmail.com, licensed under [NON-COMMERCIAL LEARNING LICENSE 1.1](LICENSE).
+
 <div id="disclaimer">
 
-## 1. Project Purpose and Nature
-This project (hereinafter referred to as "this project") was created as a technical research and learning tool, aimed at exploring and learning network data collection technologies. This project focuses on research of data crawling technologies for social media platforms, intended to provide learners and researchers with technical exchange purposes.
+### 1. Project Purpose and Nature
+This project (hereinafter referred to as "this project") was created as a technical research and learning tool, aiming to explore and learn web data collection technology. This project focuses on data crawling technology research for social media platforms, intended for exchange and use by learners and researchers.
 
-## 2. Legal Compliance Statement
-The project developer (hereinafter referred to as "developer") solemnly reminds users to strictly comply with relevant laws and regulations of the People's Republic of China when downloading, installing and using this project, including but not limited to the "Cybersecurity Law of the People's Republic of China", "Counter-Espionage Law of the People's Republic of China" and all applicable national laws and policies. Users shall bear all legal responsibilities that may arise from using this project.
+### 2. Legal Compliance Statement
+The developer of this project (hereinafter referred to as "the developer") solemnly reminds users to strictly comply with relevant laws and regulations of the People's Republic of China when downloading, installing, and using this project, including but not limited to the "Cybersecurity Law of the People's Republic of China," the "Counter-Espionage Law of the People's Republic of China," and all applicable national laws and policies. Users shall bear all legal liabilities that may arise from the use of this project.
 
-## 3. Usage Purpose Restrictions
-This project is strictly prohibited from being used for any illegal purposes or non-learning, non-research commercial activities. This project may not be used for any form of illegal intrusion into other people's computer systems, nor may it be used for any activities that infringe upon others' intellectual property rights or other legitimate rights and interests. Users should ensure that their use of this project is purely for personal learning and technical research, and may not be used for any form of illegal activities.
+### 3. Intellectual Property Statement
+The developer respects and protects the intellectual property rights of all parties. The source code and related content provided by this project are for technical exchange and learning purposes only. Users shall not use this project for any form of commercial activities or infringe upon the legal rights of others.
 
-## 4. Disclaimer
-The developer has made every effort to ensure the legitimacy and security of this project, but assumes no responsibility for any form of direct or indirect losses that may arise from users' use of this project. Including but not limited to any data loss, equipment damage, legal litigation, etc. caused by using this project.
+### 4. Disclaimer
+The developer assumes no legal responsibility for any form of direct, indirect, incidental, special, or consequential damages arising from the use of this project. Users assume all risks of using this project.
 
-## 5. Intellectual Property Statement
-The intellectual property rights of this project belong to the developer. This project is protected by copyright law and international copyright treaties as well as other intellectual property laws and treaties. Users may download and use this project under the premise of complying with this statement and relevant laws and regulations.
+### 5. User Responsibility
+Users shall be responsible for their own actions when using this project and shall ensure that their use of this project complies with local laws and regulations. Users shall not use this project for any illegal activities.
 
-## 6. Final Interpretation Rights
-The developer has the final interpretation rights regarding this project. The developer reserves the right to change or update this disclaimer at any time without further notice.
+### 6. Final Interpretation Rights
+The right to interpret this disclaimer belongs to the original project developer. The disclaimer applies to the version obtained by users from this repository.
+
 </div>
 
+---
 
-## 🙏 Acknowledgments
+## II. Fork Branch Disclaimer
 
-### JetBrains Open Source License Support
+> The following disclaimer is provided by Aswellle for the modifications made in this fork branch (including but not limited to WebUI, interactive experience, etc.).
 
-Thanks to JetBrains for providing free open source license support for this project!
+### 1. Scope of Modifications
+This fork branch is modified by Aswellle based on the original project code. The scope of modifications includes the WebUI frontend, API backend logic, project structure optimization, and more.
 
-<a href="https://www.jetbrains.com/?from=MediaCrawler">
-    <img src="https://www.jetbrains.com/company/brand/img/jetbrains_logo.png" width="100" alt="JetBrains" />
-</a>
+### 2. Disclaimer for Modifications
+Issues arising from modifications in this fork branch (including but not limited to code defects, functional abnormalities, data loss, etc.) are the responsibility of Aswellle. Users should evaluate the risks themselves when using this fork branch.
+
+### 3. Copyright Notice
+The copyright of the original project belongs to NanmiCoder/relakkes. The copyright of modifications made in this fork branch belongs to Aswellle. When distributing or using this fork branch, users shall retain the original project's copyright and modification copyright notices at the same time.
+
+### 4. Issue Feedback
+If you find issues originating from **modifications in this fork** (WebUI, interactive experience, etc.), please provide feedback via this repository's [Issues](https://github.com/Aswellle/MeitiCrawler/issues).
