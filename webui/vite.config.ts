@@ -4,8 +4,8 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  // GitHub Pages: repo name is MeitiCrawler
-  base: '/MeitiCrawler/',
+  // GitHub Pages: repo name is WeMediaCrawler
+  base: '/WeMediaCrawler/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
