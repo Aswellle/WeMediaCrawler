@@ -1,10 +1,10 @@
-# 🔥 MeitiCrawler - Rastreador de Plataformas de Redes Sociales 🕷️
+# 🔥 WeMediaCrawler - Rastreador de Plataformas de Redes Sociales 🕷️
 
 <div align="center">
 
-[![GitHub Stars](https://img.shields.io/github/stars/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/Aswellle/MeitiCrawler)](https://github.com/Aswellle/MeitiCrawler/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/Aswellle/WeMediaCrawler?style=social)](https://github.com/Aswellle/WeMediaCrawler/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Aswellle/WeMediaCrawler?style=social)](https://github.com/Aswellle/WeMediaCrawler/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/Aswellle/WeMediaCrawler)](https://github.com/Aswellle/WeMediaCrawler/issues)
 [![License](https://img.shields.io/badge/license-Non--Commercial%20Learning%201.1-blue)](LICENSE)
 [![中文](https://img.shields.io/badge/🇨🇳_中文-Available-blue)](README.md)
 [![English](https://img.shields.io/badge/🇺🇸_English-Available-green)](README_en.md)
@@ -44,7 +44,7 @@ Este fork introduce los siguientes cambios principales sobre el proyecto origina
 - **Optimización de la Experiencia de Interacción** — Mejora de los flujos de trabajo principales, incluyendo configuración del rastreador, monitoreo de estado y visualización de registros
 - **Mejoras de Características y Correcciones de Errores** — Múltiples mejoras mientras se preserva la arquitectura original
 
-> Todos los registros de commits y cambios de esta rama pueden verse a través de [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:MeitiCrawler:main).
+> Todos los registros de commits y cambios de esta rama pueden verse a través de [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:WeMediaCrawler:main).
 
 ---
 
@@ -94,7 +94,7 @@ El proyecto depende de Node.js, por favor descargue e instale desde el sitio web
 
 ```shell
 # Entrar al directorio del proyecto
-cd MeitiCrawler
+cd WeMediaCrawler
 
 # Usar el comando uv sync para asegurar la consistencia de la versión de python y paquetes de dependencias relacionados
 uv sync
@@ -150,7 +150,7 @@ uv run main.py --help
 
 ## 🖥️ Interfaz de Operación Visual WebUI
 
-MeitiCrawler proporciona una interfaz de operación visual basada en web, permitiéndole usar fácilmente las funciones del rastreador sin la línea de comandos.
+WeMediaCrawler proporciona una interfaz de operación visual basada en web, permitiéndole usar fácilmente las funciones del rastreador sin la línea de comandos.
 
 #### Desarrollo (Recomendado)
 
@@ -213,7 +213,7 @@ Después de eso, visite `http://localhost:8080`.
 
 ```shell
 # Entrar al directorio raíz del proyecto
-cd MeitiCrawler
+cd WeMediaCrawler
 
 # Crear entorno virtual
 # Las librerías en requirements.txt están basadas en python 3.11
@@ -261,7 +261,7 @@ python main.py --help
 
 ## 💾 Almacenamiento de Datos
 
-MeitiCrawler soporta múltiples métodos de almacenamiento de datos, incluyendo CSV, JSON, JSONL, Excel, SQLite y bases de datos MySQL.
+WeMediaCrawler soporta múltiples métodos de almacenamiento de datos, incluyendo CSV, JSON, JSONL, Excel, SQLite y bases de datos MySQL.
 
 📖 **Para instrucciones de uso detalladas, por favor vea: [Guía de Almacenamiento de Datos](docs/data_storage_guide.md)**
 
@@ -328,4 +328,4 @@ Los problemas que surjan de las modificaciones en esta rama fork (incluyendo per
 Los derechos de autor del proyecto original pertenecen a NanmiCoder/relakkes. Los derechos de autor de las modificaciones realizadas en esta rama fork pertenecen a Aswellle. Al distribuir o usar esta rama fork, los usuarios deberán conservar los avisos de derechos de autor del proyecto original y las modificaciones al mismo tiempo.
 
 ### 4. Retroalimentación de Problemas
-Si encuentra problemas que se originan en **modificaciones en este fork** (WebUI, experiencia interactiva, etc.), por favor proporcione retroalimentación a través de los [Issues](https://github.com/Aswellle/MeitiCrawler/issues) de este repositorio.
+Si encuentra problemas que se originan en **modificaciones en este fork** (WebUI, experiencia interactiva, etc.), por favor proporcione retroalimentación a través de los [Issues](https://github.com/Aswellle/WeMediaCrawler/issues) de este repositorio.

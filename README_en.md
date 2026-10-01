@@ -1,10 +1,10 @@
-# 🔥 MeitiCrawler - Social Media Platform Crawler 🕷️
+# 🔥 WeMediaCrawler - Social Media Platform Crawler 🕷️
 
 <div align="center">
 
-[![GitHub Stars](https://img.shields.io/github/stars/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/Aswellle/MeitiCrawler)](https://github.com/Aswellle/MeitiCrawler/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/Aswellle/WeMediaCrawler?style=social)](https://github.com/Aswellle/WeMediaCrawler/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Aswellle/WeMediaCrawler?style=social)](https://github.com/Aswellle/WeMediaCrawler/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/Aswellle/WeMediaCrawler)](https://github.com/Aswellle/WeMediaCrawler/issues)
 [![License](https://img.shields.io/badge/license-Non--Commercial%20Learning%201.1-blue)](LICENSE)
 [![中文](https://img.shields.io/badge/🇨🇳_中文-Available-blue)](README.md)
 [![English](https://img.shields.io/badge/🇺🇸_English-Current-green)](README_en.md)
@@ -44,7 +44,7 @@ This fork introduces the following major changes on top of the original project:
 - **Interaction Experience Optimization** — Improved core workflows including crawler configuration, status monitoring, and log viewing
 - **Feature Enhancements & Bug Fixes** — Multiple improvements while preserving the original architecture
 
-> All commits and change records of this branch can be viewed via [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:MeitiCrawler:main).
+> All commits and change records of this branch can be viewed via [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:WeMediaCrawler:main).
 
 ---
 
@@ -94,7 +94,7 @@ The project depends on Node.js, please download and install from the official we
 
 ```shell
 # Enter project directory
-cd MeitiCrawler
+cd WeMediaCrawler
 
 # Use uv sync command to ensure consistency of python version and related dependency packages
 uv sync
@@ -150,7 +150,7 @@ uv run main.py --help
 
 ## 🖥️ WebUI Visual Operation Interface
 
-MeitiCrawler provides a web-based visual operation interface, allowing you to easily use crawler features without the command line.
+WeMediaCrawler provides a web-based visual operation interface, allowing you to easily use crawler features without the command line.
 
 #### Development (Recommended)
 
@@ -213,7 +213,7 @@ After that, visit `http://localhost:8080`.
 
 ```shell
 # Enter project root directory
-cd MeitiCrawler
+cd WeMediaCrawler
 
 # Create virtual environment
 # The libraries in requirements.txt are based on python 3.11
@@ -261,7 +261,7 @@ python main.py --help
 
 ## 💾 Data Storage
 
-MeitiCrawler supports multiple data storage methods, including CSV, JSON, JSONL, Excel, SQLite, and MySQL databases.
+WeMediaCrawler supports multiple data storage methods, including CSV, JSON, JSONL, Excel, SQLite, and MySQL databases.
 
 📖 **For detailed usage instructions, please see: [Data Storage Guide](docs/data_storage_guide.md)**
 
@@ -328,4 +328,4 @@ Issues arising from modifications in this fork branch (including but not limited
 The copyright of the original project belongs to NanmiCoder/relakkes. The copyright of modifications made in this fork branch belongs to Aswellle. When distributing or using this fork branch, users shall retain the original project's copyright and modification copyright notices at the same time.
 
 ### 4. Issue Feedback
-If you find issues originating from **modifications in this fork** (WebUI, interactive experience, etc.), please provide feedback via this repository's [Issues](https://github.com/Aswellle/MeitiCrawler/issues).
+If you find issues originating from **modifications in this fork** (WebUI, interactive experience, etc.), please provide feedback via this repository's [Issues](https://github.com/Aswellle/WeMediaCrawler/issues).

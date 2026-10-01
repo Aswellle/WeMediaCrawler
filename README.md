@@ -1,10 +1,10 @@
-# 🔥 MeitiCrawler - 自媒体平台爬虫 🕷️
+# 🔥 WeMediaCrawler - 自媒体平台爬虫 🕷️
 
 <div align="center">
 
-[![GitHub Stars](https://img.shields.io/github/stars/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/Aswellle/MeitiCrawler?style=social)](https://github.com/Aswellle/MeitiCrawler/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/Aswellle/MeitiCrawler)](https://github.com/Aswellle/MeitiCrawler/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/Aswellle/WeMediaCrawler?style=social)](https://github.com/Aswellle/WeMediaCrawler/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Aswellle/WeMediaCrawler?style=social)](https://github.com/Aswellle/WeMediaCrawler/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/Aswellle/WeMediaCrawler)](https://github.com/Aswellle/WeMediaCrawler/issues)
 [![License](https://img.shields.io/badge/license-Non--Commercial%20Learning%201.1-blue)](LICENSE)
 [![中文](https://img.shields.io/badge/🇨🇳_中文-当前-blue)](README.md)
 [![English](https://img.shields.io/badge/🇺🇸_English-Available-green)](README_en.md)
@@ -44,7 +44,7 @@
 - **交互体验优化** — 改进爬虫配置、状态监控、日志查看等核心使用流程
 - **功能增强与问题修复** — 在保留原始架构的基础上进行多项改进
 
-> 本分支的所有提交与改动记录可通过 [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:MeitiCrawler:main) 查看。
+> 本分支的所有提交与改动记录可通过 [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:WeMediaCrawler:main) 查看。
 
 ---
 
@@ -95,7 +95,7 @@
 
 ```shell
 # 进入项目目录
-cd MeitiCrawler
+cd WeMediaCrawler
 
 # 使用 uv sync 命令来保证 python 版本和相关依赖包的一致性
 uv sync
@@ -151,7 +151,7 @@ uv run main.py --help
 
 ## 🖥️ WebUI 可视化操作界面
 
-MeitiCrawler 提供了基于 Web 的可视化操作界面，无需命令行也能轻松使用爬虫功能。
+WeMediaCrawler 提供了基于 Web 的可视化操作界面，无需命令行也能轻松使用爬虫功能。
 
 #### 开发调试（推荐）
 
@@ -214,7 +214,7 @@ uv run uvicorn api.main:app --port 8080 --reload
 
 ```shell
 # 进入项目根目录
-cd MeitiCrawler
+cd WeMediaCrawler
 
 # 创建虚拟环境
 # requirements.txt 中的库基于 python 3.11
@@ -262,7 +262,7 @@ python main.py --help
 
 ## 💾 数据保存
 
-MeitiCrawler 支持多种数据存储方式，包括 CSV、JSON、JSONL、Excel、SQLite 和 MySQL 数据库。
+WeMediaCrawler 支持多种数据存储方式，包括 CSV、JSON、JSONL、Excel、SQLite 和 MySQL 数据库。
 
 📖 **详细使用说明请查看：[数据存储指南](docs/data_storage_guide.md)**
 
@@ -317,7 +317,7 @@ MeitiCrawler 支持多种数据存储方式，包括 CSV、JSON、JSONL、Excel�
 
 ## 二、Fork 分支免责声明
 
-> 本 Fork 由 **Aswellle**（[https://github.com/Aswellle/MeitiCrawler](https://github.com/Aswellle/MeitiCrawler)）维护。
+> 本 Fork 由 **Aswellle**（[https://github.com/Aswellle/WeMediaCrawler](https://github.com/Aswellle/WeMediaCrawler)）维护。
 
 ### 1. 分支性质
 本仓库是 [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) 的独立 Fork 分支。本 Fork 在原始项目基础上进行了 UI/UX 改造与功能增强（详见上方 [分支贡献](#-分支贡献) 章节）。
@@ -338,4 +338,4 @@ MeitiCrawler 支持多种数据存储方式，包括 CSV、JSON、JSONL、Excel�
 
 ### 5. 反馈与问题
 - 如发现问题源于**原始项目代码**，建议向 [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler/issues) 反馈。
-- 如发现问题源于**本 Fork 的改动**（WebUI、交互体验等），请在本仓库的 [Issues](https://github.com/Aswellle/MeitiCrawler/issues) 反馈。
+- 如发现问题源于**本 Fork 的改动**（WebUI、交互体验等），请在本仓库的 [Issues](https://github.com/Aswellle/WeMediaCrawler/issues) 反馈。
