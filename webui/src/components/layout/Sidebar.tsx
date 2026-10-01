@@ -23,7 +23,7 @@ export function Sidebar({ onShowDisclaimer }: SidebarProps) {
         <div className="flex items-center gap-3">
           <Bug className="w-5 h-5 text-cyber-neon-cyan" aria-hidden="true" />
           <span className="font-mono font-bold text-cyber-text-primary tracking-wider text-sm">
-            MediaCrawler
+            WeMediaCrawler
           </span>
           {isRunning && (
             <Badge variant="running" className="text-[10px]">
