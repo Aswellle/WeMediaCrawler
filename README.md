@@ -44,8 +44,6 @@
 - **交互体验优化** — 改进爬虫配置、状态监控、日志查看等核心使用流程
 - **功能增强与问题修复** — 在保留原始架构的基础上进行多项改进
 
-> 本分支的所有提交与改动记录可通过 [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:WeMediaCrawler:main) 查看。
-
 ---
 
 ## 📖 项目简介
