@@ -275,7 +275,13 @@ WeMediaCrawler 支持多种数据存储方式，包括 CSV、JSON、JSONL、Exce
 
 
 ---
+## ⭐ 支持这个项目
 
+如果WeMediaCrawler对你有帮助，欢迎给我一个 ⭐️ Star！
+
+你的每一次支持，都是我持续改进的动力。
+
+---
 # 免责声明
 
 本仓库包含两份免责声明：
