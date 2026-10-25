@@ -2,7 +2,7 @@ import type { ComponentType, ReactNode, KeyboardEvent } from 'react'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { Database, Globe, KeyRound, MessageSquare, Play, Square, X, Settings2, Chrome, QrCode, Smartphone, Cookie } from 'lucide-react'
+import { Database, Globe, Image as ImageIcon, KeyRound, MessageSquare, Play, Square, X, Settings2, Chrome, QrCode, Smartphone, Cookie } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
@@ -567,6 +567,24 @@ export function CrawlerConfigPanel() {
                 disabled={isDisabled || !config.enable_comments}
               />
               <label htmlFor="field-enableSubComments" className="text-sm font-mono text-cyber-text-primary cursor-pointer">{t('field.subComments')}</label>
+            </div>
+
+            <div className="flex items-center gap-3 rounded-lg border border-cyber-border-subtle bg-cyber-bg-tertiary/30 p-2.5 hover:border-cyber-border-DEFAULT transition-colors">
+              <Checkbox
+                id="field-enableMedia"
+                checked={config.enable_media}
+                onCheckedChange={(checked) => updateConfig({ enable_media: checked === true })}
+                disabled={isDisabled}
+              />
+              <div className="min-w-0 flex-1">
+                <label htmlFor="field-enableMedia" className="flex items-center gap-2 text-sm font-mono text-cyber-text-primary cursor-pointer">
+                  <ImageIcon className="h-3.5 w-3.5 text-cyber-text-secondary" aria-hidden="true" />
+                  {t('field.downloadMedia')}
+                </label>
+                <p className="text-[11px] text-cyber-text-muted leading-snug">
+                  {t('field.downloadMediaHint')}
+                </p>
+              </div>
             </div>
 
             <div className="flex items-center gap-3 rounded-lg border border-cyber-border-subtle bg-cyber-bg-tertiary/30 p-2.5 hover:border-cyber-border-DEFAULT transition-colors">
