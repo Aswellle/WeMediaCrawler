@@ -17,7 +17,7 @@
 ### L0. 启动入口层（阻断级，已修复）
 - **`start.ps1` 指向不存在的目录** `$projectRoot = "D:\Git-Clone\SRC\MediaCrawler"`——仓库已改名 WeMediaCrawler，该路径下无项目。用此脚本启动时后端进程 WorkingDirectory 无效，`/api/health` 检查必失败，脚本 `exit 1`。**如果用户经此脚本使用 WebUI，这就是"页面能操作但抓取不工作"的最直接解释之一**（WebUI 静态页在 GitHub Pages 可打开，但后端从未起来）。
   - 证据：`ls D:/Git-Clone/SRC/MediaCrawler` → 不存在；脚本内容见 git 历史（未跟踪文件）。
-  - 修复：`672a98c2` 中 `$projectRoot` 改为从脚本自身位置推导。
+  - 修复：`$projectRoot` 改为从脚本自身位置推导（评审后发现 672a98c2 提交说明误称包含此修复，实际随评审修复提交 `start.ps1`/`stop.ps1` 纳入版本跟踪时落地）。
 - **端口三处不一致**：start.ps1 后端 9090，`webui/vite.config.ts` 代理 `/api`→`localhost:8083`，CLAUDE.md 写 8080。即使后端起来，vite dev 前端也连不上。
   - 修复：start.ps1 统一为 8083（与受版本控制的 vite 代理一致）；stop.ps1 原本就清理 8083，无需改。
 
@@ -56,9 +56,9 @@ fork 的 `XiaoHongShuClient.request()`（合并前）：
 
 ## 3. 最小修复范围（本轮实际执行）
 
-1. `start.ps1` 路径与端口修复（`672a98c2`）——恢复用户启动入口。
+1. `start.ps1` 路径与端口修复——恢复用户启动入口（脚本随评审修复提交纳入版本跟踪；`672a98c2` 提交说明曾误称包含此项）。
 2. 三方合并带入 xhs/dy/ks/bili/wb 全部可靠性修复与新媒体架构（`2576d018`）。
-3. CORS 收紧（`672a98c2`）——修复"任意网页可经浏览器驱动公网暴露的 API"问题（ngrok 场景实证相关：start.ps1 默认开 ngrok 隧道）。
+3. CORS 收紧（`672a98c2`）——修复"任意网页可经浏览器驱动公网暴露的 API"问题（ngrok 场景实证相关；评审修复后 start.ps1 隧道改为 opt-in `-Tunnel` 参数）。
 4. 测试健壮性修复（`672a98c2`、`fcf387ce`）。
 
 ## 4. 未确定项（明确标注）

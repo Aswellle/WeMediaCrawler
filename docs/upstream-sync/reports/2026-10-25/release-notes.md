@@ -13,7 +13,11 @@
 - **同步上游 NanmiCoder/MediaCrawler main（2026-07-16 → 2026-10-15，38 个提交）**，覆盖小红书/抖音/快手/B站/微博的请求契约、错误分类、限流退避、评论边界与登录态判定修复。
 - **媒体下载功能端到端引入**：统一 `media_downloader/` + 五平台 `media.py` 适配器 + WebUI 开关（`--get_media` / `enable_media` / `ENABLE_GET_MEDIA`）。支持 xhs / dy / ks / bili / wb（tieba、zhihu 数据结构无媒体字段，不支持，UI 有明确提示）。旧 `store/*/*_store_media.py` 已移除，避免双实现。
 - **WebUI/API 启动链路修复**：`start.ps1` 不再指向已失效的旧项目路径，后端端口统一为 8083（与 `webui/vite.config.ts` 代理一致）。
-- **安全**：API CORS 从"反射任意 Origin + 凭证"收紧为 allow-list（本机开发来源 + 同源 + `MEDIACRAWLER_CORS_EXTRA_ORIGINS` 显式扩展）。公网部署（ngrok/Railway）时请用环境变量声明允许的跨域来源。
+- **安全**（代码评审后强化）：
+  - API CORS 从"反射任意 Origin + 凭证"收紧为 allow-list（本机开发来源 + 同源 + `MEDIACRAWLER_CORS_EXTRA_ORIGINS` 显式扩展），预检头放行前端必发的 `ngrok-skip-browser-warning`；
+  - WebSocket（`/api/ws/logs`、`/api/ws/status`）握手增加同一 Origin allow-list 校验（防跨站 WebSocket 劫持读取日志/状态）；
+  - 启动日志对 `--cookies` 参数值脱敏（日志会经 WS 广播并重放，Cookie 不再进入日志面）；
+  - `start.ps1`/`stop.ps1` 纳入版本跟踪：项目根自动定位、端口 8083 与 vite 代理一致、ngrok 路径参数化（`MEDIACRAWLER_NGROK_EXE`）、公网隧道改为 `-Tunnel` 显式开启（API 无认证，默认不再暴露公网）。公网部署（ngrok/Railway）时请用环境变量声明允许的跨域来源。
 
 ### 平台修复明细（来自上游，均已带回归测试）
 
