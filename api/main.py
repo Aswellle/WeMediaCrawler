@@ -42,22 +42,55 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# ── CORS: unconditional middleware placed BEFORE any route registration ──────
+# ── CORS: allow-list middleware placed BEFORE any route registration ─────────
+# 允许本机开发端口(vite dev 等)；跨主机部署请通过环境变量
+# MEDIACRAWLER_CORS_EXTRA_ORIGINS 显式追加来源（逗号分隔）。
+# 不再无条件反射任意 Origin：该 API 可控制爬虫并回传采集数据，
+# 通配来源 + credentials 会让任意第三方网页代用户驱动爬虫。
+_CORS_METHODS = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+_CORS_HEADERS = "Content-Type, Authorization, X-Requested-With"
+
+def _cors_extra_origins() -> list:
+    raw = os.environ.get("MEDIACRAWLER_CORS_EXTRA_ORIGINS", "")
+    return [o.strip() for o in raw.split(",") if o.strip()]
+
+def _origin_allowed(origin: str, host_header: str) -> bool:
+    if not origin:
+        return False
+    if origin in _cors_extra_origins():
+        return True
+    # 同源请求（浏览器对同源 fetch 也会带 Origin，与 Host 一致时直接放行）
+    if host_header:
+        for scheme in ("http://", "https://"):
+            if origin.startswith(scheme) and origin[len(scheme):] == host_header:
+                return True
+    # 本机开发来源：任意端口
+    for prefix in ("http://localhost:", "http://127.0.0.1:", "https://localhost:", "https://127.0.0.1:"):
+        if origin.startswith(prefix):
+            return True
+    return False
+
 @app.middleware("http")
-async def force_cors(request: Request, call_next):
+async def allowlist_cors(request: Request, call_next):
+    origin = request.headers.get("origin", "")
+    host_header = request.headers.get("host", "")
     if request.method == "OPTIONS":
-        origin = request.headers.get("origin", "*")
-        return Response(status_code=200, headers={
-            "Access-Control-Allow-Origin": origin,
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Credentials": "true",
-        })
+        if _origin_allowed(origin, host_header):
+            return Response(status_code=200, headers={
+                "Access-Control-Allow-Origin": origin,
+                "Access-Control-Allow-Methods": _CORS_METHODS,
+                "Access-Control-Allow-Headers": _CORS_HEADERS,
+                "Access-Control-Allow-Credentials": "true",
+                "Vary": "Origin",
+            })
+        return Response(status_code=204)
     response = await call_next(request)
-    response.headers["Access-Control-Allow-Origin"] = request.headers.get("origin", "*")
-    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
-    response.headers["Access-Control-Allow-Headers"] = "*"
-    response.headers["Access-Control-Allow-Credentials"] = "true"
+    if _origin_allowed(origin, host_header):
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Methods"] = _CORS_METHODS
+        response.headers["Access-Control-Allow-Headers"] = _CORS_HEADERS
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Vary"] = "Origin"
     return response
 
 # Get webui static files directory
