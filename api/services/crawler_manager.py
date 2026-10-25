@@ -118,8 +118,9 @@ class CrawlerManager:
             if config.cdp_auto_launch:
                 env["MEDIACRAWLER_CDP_CONNECT_EXISTING"] = "False"
 
-            # Log start information
-            entry = self._create_log_entry(f"Starting crawler: {' '.join(cmd)}", "info")
+            # Log start information（脱敏：cookies 值不进日志，
+            # 日志会经 /ws/logs 广播并重放给新连接，见 _redact_cmd）
+            entry = self._create_log_entry(f"Starting crawler: {self._redact_cmd(cmd)}", "info")
             await self._push_log(entry)
 
             try:
@@ -206,6 +207,25 @@ class CrawlerManager:
             "started_at": self.started_at.isoformat() if self.started_at else None,
             "error_message": None
         }
+
+    # 值需要脱敏的命令行参数（日志经 /ws/logs 广播并重放给每个新连接）
+    _REDACTED_FLAGS = {"--cookies"}
+
+    @classmethod
+    def _redact_cmd(cls, cmd: list) -> str:
+        """把命令行转成可安全写入日志的字符串：敏感参数值替换为 ***"""
+        safe = []
+        redact_next = False
+        for part in cmd:
+            if redact_next:
+                safe.append("***")
+                redact_next = False
+            elif part in cls._REDACTED_FLAGS:
+                safe.append(part)
+                redact_next = True
+            else:
+                safe.append(part)
+        return " ".join(safe)
 
     def _build_command(self, config: CrawlerStartRequest) -> list:
         """Build main.py command line arguments"""

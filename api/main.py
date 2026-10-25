@@ -47,28 +47,9 @@ app = FastAPI(
 # MEDIACRAWLER_CORS_EXTRA_ORIGINS 显式追加来源（逗号分隔）。
 # 不再无条件反射任意 Origin：该 API 可控制爬虫并回传采集数据，
 # 通配来源 + credentials 会让任意第三方网页代用户驱动爬虫。
-_CORS_METHODS = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
-_CORS_HEADERS = "Content-Type, Authorization, X-Requested-With"
-
-def _cors_extra_origins() -> list:
-    raw = os.environ.get("MEDIACRAWLER_CORS_EXTRA_ORIGINS", "")
-    return [o.strip() for o in raw.split(",") if o.strip()]
-
-def _origin_allowed(origin: str, host_header: str) -> bool:
-    if not origin:
-        return False
-    if origin in _cors_extra_origins():
-        return True
-    # 同源请求（浏览器对同源 fetch 也会带 Origin，与 Host 一致时直接放行）
-    if host_header:
-        for scheme in ("http://", "https://"):
-            if origin.startswith(scheme) and origin[len(scheme):] == host_header:
-                return True
-    # 本机开发来源：任意端口
-    for prefix in ("http://localhost:", "http://127.0.0.1:", "https://localhost:", "https://127.0.0.1:"):
-        if origin.startswith(prefix):
-            return True
-    return False
+# allow-list 逻辑与 WebSocket 握手共用，见 api/cors.py。
+from .cors import CORS_HEADERS as _CORS_HEADERS, CORS_METHODS as _CORS_METHODS
+from .cors import origin_allowed as _origin_allowed
 
 @app.middleware("http")
 async def allowlist_cors(request: Request, call_next):

@@ -177,6 +177,20 @@ git commit -m "chore: point API to Railway backend"
 git push origin main
 ```
 
+### CORS（跨域）配置
+
+后端 API 的跨域来源采用 **allow-list**：本机开发端口（localhost/127.0.0.1 任意端口）与同源请求默认放行。
+前端与后端不同域（如 GitHub Pages 前端调用 Railway 后端）时，必须把前端来源加入后端的环境变量：
+
+```
+MEDIACRAWLER_CORS_EXTRA_ORIGINS=https://<你的用户名>.github.io
+```
+
+- 多个来源用英文逗号分隔；
+- 同域部署（后端直接托管打包后的 WebUI，或经 ngrok/Railway 同一域名访问）无需配置；
+- WebSocket（`/api/ws/logs`、`/api/ws/status`）与 HTTP 使用同一 allow-list，浏览器跨域 WS 握手会被拒绝；
+- 注意：API 目前无认证，公网部署意味着任何访客都能驱动爬虫并读取采集数据，请自行评估并配合反代认证使用。
+
 ---
 
 ## 验证部署

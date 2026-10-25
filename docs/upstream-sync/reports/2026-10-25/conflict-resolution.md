@@ -37,6 +37,6 @@
 
 | 提交 | 内容 |
 |---|---|
-| `672a98c2` | CORS allow-list 化（替换 fork 原有的反射任意 Origin 中间件——该中间件在本轮安全审计中被判定为不适合公网暴露的 API）、`tests/test_no_user_info.py` 去除 subprocess grep 依赖（Windows 误报）、`start.ps1` 路径/端口修复、新增 `tests/test_api_cors.py` |
+| `672a98c2` | CORS allow-list 化（替换 fork 原有的反射任意 Origin 中间件——该中间件在本轮安全审计中被判定为不适合公网暴露的 API）、`tests/test_no_user_info.py` 去除 subprocess grep 依赖（Windows 误报）、新增 `tests/test_api_cors.py`。注意：该提交说明当时误称包含 `start.ps1` 修复，实际 start.ps1/stop.ps1 直到评审修复提交才纳入跟踪（见下一条） |
 | `fcf387ce` | `tests/test_media_ffmpeg.py` 取消-孤儿进程用例的 Windows 等价分支 |
 | `eb5f1d8a` | pre-commit 钩子自动补齐版权头与空白规范化（上游新文件进入二改仓库后需符合其头文件规范） |

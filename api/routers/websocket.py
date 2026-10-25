@@ -21,9 +21,22 @@ from typing import Set, Optional
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
+from ..cors import origin_allowed
 from ..services import crawler_manager
 
 router = APIRouter(tags=["websocket"])
+
+
+def _ws_origin_rejected(websocket: WebSocket) -> bool:
+    """浏览器 WebSocket 握手必带 Origin；与 HTTP CORS 共用同一 allow-list。
+
+    无 Origin 的客户端（curl/脚本/TestClient）不受浏览器同源策略约束，放行；
+    带 Origin 但不在 allow-list 内的一律拒绝（防跨站 WebSocket 劫持读取日志/状态）。
+    """
+    origin = websocket.headers.get("origin", "")
+    if not origin:
+        return False
+    return not origin_allowed(origin, websocket.headers.get("host", ""))
 
 
 class ConnectionManager:
@@ -91,6 +104,11 @@ async def websocket_logs(websocket: WebSocket):
     """WebSocket log stream"""
     print("[WS] New connection attempt")
 
+    if _ws_origin_rejected(websocket):
+        print(f"[WS] Rejected connection from origin: {websocket.headers.get('origin')}")
+        await websocket.close(code=1008)
+        return
+
     try:
         # Ensure broadcast task is running
         start_broadcaster()
@@ -137,6 +155,10 @@ async def websocket_logs(websocket: WebSocket):
 @router.websocket("/ws/status")
 async def websocket_status(websocket: WebSocket):
     """WebSocket status stream"""
+    if _ws_origin_rejected(websocket):
+        await websocket.close(code=1008)
+        return
+
     await websocket.accept()
 
     try:
