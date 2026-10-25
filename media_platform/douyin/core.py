@@ -174,7 +174,7 @@ class DouYinCrawler(AbstractCrawler):
                     page_aweme_list.append(aweme_info.get("aweme_id", ""))
                     await douyin_store.update_douyin_aweme(aweme_item=aweme_info)
                     await self.download_media(aweme_item=aweme_info)
-                
+
                 # Batch get note comments for the current page
                 await self.batch_get_note_comments(page_aweme_list)
 

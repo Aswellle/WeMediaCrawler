@@ -56,10 +56,10 @@ class XiaoHongShuLogin(AbstractLogin):
         # 1. Priority check: Check if the "Me" (Profile) node appears in the sidebar
         try:
             # Selector for elements containing "Me" text with a link pointing to the profile
-            # XPath Explanation: Find a span with text "Me" inside an anchor tag (<a>) 
+            # XPath Explanation: Find a span with text "Me" inside an anchor tag (<a>)
             # whose href attribute contains "/user/profile/"
             user_profile_selector = "xpath=//a[contains(@href, '/user/profile/')]//span[text()='我']"
-            
+
             # Set a short timeout since this is called within a retry loop
             is_visible = await self.context_page.is_visible(user_profile_selector, timeout=500)
             if is_visible:
@@ -76,7 +76,7 @@ class XiaoHongShuLogin(AbstractLogin):
         current_cookie = await self.browser_context.cookies()
         _, cookie_dict = utils.convert_cookies(current_cookie)
         current_web_session = cookie_dict.get("web_session")
-        
+
         # If web_session has changed, consider the login successful
         if current_web_session and current_web_session != no_logged_in_session:
             utils.logger.info("[XiaoHongShuLogin.check_login_state] Login status confirmed by Cookie (web_session changed).")
