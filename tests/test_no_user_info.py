@@ -1,4 +1,21 @@
 # -*- coding: utf-8 -*-
+# Copyright (c) 2025 relakkes@gmail.com
+#
+# This file is part of MediaCrawler project.
+# Repository: https://github.com/NanmiCoder/MediaCrawler/blob/main/tests\test_no_user_info.py
+# GitHub: https://github.com/NanmiCoder
+# Licensed under NON-COMMERCIAL LEARNING LICENSE 1.1
+#
+# 声明：本代码仅供学习和研究目的使用。使用者应遵守以下原则：
+# 1. 不得用于任何商业用途。
+# 2. 使用时应遵守目标平台的使用条款和robots.txt规则。
+# 3. 不得进行大规模爬取或对平台造成运营干扰。
+# 4. 应合理控制请求频率，避免给目标平台带来不必要的负担。
+# 5. 不得用于任何非法或不当的用途。
+#
+# 详细许可条款请参阅项目根目录下的LICENSE文件。
+# 使用本代码即表示您同意遵守上述原则和LICENSE中的所有条款。
+
 """
 教学版回归测试：确保爬取/存储链路不再持久化可定位真人的用户个人信息。
 
@@ -9,7 +26,6 @@
 3. 仓库 grep 断言 —— store/ 与 media_platform/ 不再把禁用字段作为存储 dict 的 key。
 """
 import re
-import subprocess
 import pathlib
 
 import pytest
@@ -211,28 +227,43 @@ def test_bilibili_video_dict_masks_user_info():
     _check_nickname_masked(captured, "UP主大人", "bili_video")
 
 
-# ----------------------------- 仓库 grep 断言 -----------------------------
+# ----------------------------- 仓库源码扫描断言 -----------------------------
+# 注意：这里用 Python 原生扫描而不是 subprocess grep——在 Windows(Git Bash) 环境
+# 下把反斜杠路径传给 MSYS grep 会错误解析路径并递归扫描整个仓库，产生大量误报。
+
+_STORE_SOURCE_RE = None
+
+
+def _store_python_sources():
+    return sorted(p for p in (ROOT / "store").rglob("*.py"))
+
 
 def test_store_no_forbidden_dict_keys():
     # store/ 下不得把禁用字段作为存储 dict 的 key("field": value 形式)
-    out = subprocess.run(
-        ["grep", "-rnE", '"(' + "|".join(FORBIDDEN_KEYS) + r')"\s*:', str(ROOT / "store")],
-        capture_output=True, text=True,
-    )
+    pattern = re.compile(r'"(' + "|".join(FORBIDDEN_KEYS) + r')"\s*:')
+    hits = [
+        f"{p.relative_to(ROOT)}:{i}: {line.strip()}"
+        for p in _store_python_sources()
+        for i, line in enumerate(p.read_text(encoding="utf-8", errors="replace").splitlines(), 1)
+        if pattern.search(line)
+    ]
     # 允许的例外：Mongo store_creator 里的 query={"user_id": ...} 已全部改为 pass，应为空
-    assert out.stdout.strip() == "", f"store/ 仍写入禁用字段键:\n{out.stdout}"
+    assert not hits, "store/ 仍写入禁用字段键:\n" + "\n".join(hits)
 
 
 def test_store_no_creator_orm_imports():
     # 已删除的 creator ORM 表(XhsCreator/DyCreator/...)不得再从 database.models 导入。
     # 注意:model/m_*.py 里的同名 pydantic 类是内存类型，允许保留。
-    out = subprocess.run(
-        ["grep", "-rnE",
-         r"from database\.models import.*(XhsCreator|DyCreator|WeiboCreator|TiebaCreator|ZhihuCreator|BilibiliUpInfo|BilibiliContactInfo)",
-         str(ROOT / "store")],
-        capture_output=True, text=True,
+    pattern = re.compile(
+        r"from database\.models import.*(XhsCreator|DyCreator|WeiboCreator|TiebaCreator|ZhihuCreator|BilibiliUpInfo|BilibiliContactInfo)"
     )
-    assert out.stdout.strip() == "", f"store/ 仍 import 已删除的 creator ORM 表:\n{out.stdout}"
+    hits = [
+        f"{p.relative_to(ROOT)}:{i}: {line.strip()}"
+        for p in _store_python_sources()
+        for i, line in enumerate(p.read_text(encoding="utf-8", errors="replace").splitlines(), 1)
+        if pattern.search(line)
+    ]
+    assert not hits, "store/ 仍 import 已删除的 creator ORM 表:\n" + "\n".join(hits)
 
 
 if __name__ == "__main__":

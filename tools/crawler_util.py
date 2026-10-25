@@ -194,16 +194,16 @@ def format_proxy_info(ip_proxy_info) -> Tuple[Optional[Dict], Optional[str]]:
 
     # Playwright proxy server should be in format "host:port" without protocol prefix
     server = f"{ip_proxy_info.ip}:{ip_proxy_info.port}"
-    
+
     playwright_proxy = {
         "server": server,
     }
-    
+
     # Only add username and password if they are not empty
     if ip_proxy_info.user and ip_proxy_info.password:
         playwright_proxy["username"] = ip_proxy_info.user
         playwright_proxy["password"] = ip_proxy_info.password
-    
+
     # httpx 0.28.1 requires passing proxy URL string directly, not a dictionary
     if ip_proxy_info.user and ip_proxy_info.password:
         httpx_proxy = f"http://{ip_proxy_info.user}:{ip_proxy_info.password}@{ip_proxy_info.ip}:{ip_proxy_info.port}"
