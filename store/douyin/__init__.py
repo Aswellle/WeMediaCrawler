@@ -142,7 +142,8 @@ async def update_dy_aweme_comment(aweme_id: str, comment_item: Dict):
         "creator_hash": anonymize_user_id(user_info.get("uid")),  # 创作者匿名哈希(不存原始 uid)
         "nickname": mask_nickname(user_info.get("nickname")),  # 用户昵称(已脱敏)
         "sub_comment_count": str(comment_item.get("reply_comment_total", 0)),
-        "like_count": (comment_item.get("digg_count") if comment_item.get("digg_count") else 0),
+        # like_count 列为 Text：与相邻字段一致地转字符串，避免 asyncpg 对 TEXT 列的严格类型检查
+        "like_count": str(comment_item.get("digg_count") or 0),
         "last_modify_ts": utils.get_current_timestamp(),
         "parent_comment_id": parent_comment_id,
         "pictures": ",".join(_extract_comment_image_list(comment_item)),
