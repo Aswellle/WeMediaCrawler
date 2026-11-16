@@ -222,7 +222,9 @@ class WeiboClient(ProxyRefreshMixin):
                 await callback(note_id, comment_list)
             await asyncio.sleep(crawl_interval)
             result.extend(comment_list)
-            sub_comment_result = await self.get_comments_all_sub_comments(note_id, comment_list, callback)
+            sub_comment_result = await self.get_comments_all_sub_comments(
+                note_id, comment_list, callback, max_count=max_count - len(result)
+            )
             result.extend(sub_comment_result)
         return result
 
@@ -231,13 +233,15 @@ class WeiboClient(ProxyRefreshMixin):
         note_id: str,
         comment_list: List[Dict],
         callback: Optional[Callable] = None,
+        max_count: int = 10,
     ) -> List[Dict]:
         """
-        Get all sub-comments of comments
+        Get sub-comments attached to first-level comments, up to max_count in total
         Args:
             note_id:
             comment_list:
             callback:
+            max_count:
 
         Returns:
 
@@ -248,8 +252,12 @@ class WeiboClient(ProxyRefreshMixin):
 
         res_sub_comments = []
         for comment in comment_list:
+            if len(res_sub_comments) >= max_count:
+                break
             sub_comments = comment.get("comments")
             if sub_comments and isinstance(sub_comments, list):
+                if len(res_sub_comments) + len(sub_comments) > max_count:
+                    sub_comments = sub_comments[: max_count - len(res_sub_comments)]
                 await callback(note_id, sub_comments)
                 res_sub_comments.extend(sub_comments)
         return res_sub_comments
