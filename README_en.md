@@ -70,7 +70,6 @@ A powerful **multi-platform social media data collection tool** that supports cr
 | Tieba   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 | Zhihu   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 
-
 ## 🚀 Quick Start
 
 ## 📋 Prerequisites
@@ -140,6 +139,34 @@ uv run main.py --platform xhs --lt qrcode --type detail
 uv run main.py --help
 ```
 
+### 🤖 One-Shot Usage via AI Agent (Recommended)
+
+If you are using an AI coding assistant (Claude Code, Codex, Cursor, etc.), **there is no need to read this document line by line**: paste the prompt below to it, and the agent will handle the whole flow of "understanding the project → composing parameters → running the crawl → verifying output".
+
+```text
+You are the data collection engineer of this repository. Complete the following task with single concurrency and small scale, collecting public data only:
+1. Read config/base_config.py (all switches have Chinese comments) and the output of `uv run main.py --help`; do not modify source code;
+2. My collection target: platform=xhs/dy/ks/bili/wb/tieba/zhihu, keyword or content ID="<fill in here>",
+   data needed: post content / comments / media files (specify as needed);
+3. Run the collection with a single command (every switch is a CLI parameter, no config file editing needed), for example:
+   uv run main.py --platform xhs --lt qrcode --type search --keywords "food" \
+     --crawler_max_notes_count 20 --get_comment true --get_sub_comment true \
+     --get_media true --max_comments_count_singlenotes 20 --max_concurrency_num 1 \
+     --save_data_option csv --save_data_path ./data
+   For specific posts use --type detail --specified_id "<post link or ID>"; for creators use --type creator --creator_id "<profile link or ID>";
+4. When login is required (QR code or browser confirmation dialog), ask me to do it manually; do not interrupt me otherwise;
+5. When finished, report: file list and row/file counts under data/, and spot-check sanitization (creator_hash is a 16-char hash, nicknames are masked).
+If a captcha, access restriction, or platform risk-control notice appears, stop immediately and tell me; do not retry to bypass it.
+```
+
+**Why this is faster**:
+
+- Every capability is a CLI flag (`--platform / --type / --keywords / --specified_id / --creator_id / --get_media / --get_comment / --get_sub_comment / --max_comments_count_singlenotes / --max_concurrency_num / --save_data_option / --save_data_path`); the agent can compose any crawl shape without touching code;
+- Export format switches via `--save_data_option` (csv/excel/json/jsonl/sqlite/db/postgres/mongodb), and each media folder carries a `summary.csv` note summary for easy browsing;
+- After the first QR login, the login state is kept in the browser, so later runs won't interrupt you.
+
+> ⚠️ **Compliance Reminder**: Collect public data at a small scale, and respect the target platform's terms and robots.txt; the project license is for learning and research purposes only.
+
 > ⚠️ **Backend Service Reminder**: The following WebUI visual interface depends on the backend API service to run. Before first use, please **start the backend separately first**:
 >
 > ```shell
@@ -204,67 +231,11 @@ After that, visit `http://localhost:8080`.
 | --- | --- |
 | ![Run Logs](docs/static/images/webui_logs.png) | — |
 
-
-## 🔗 Using Python Native venv Environment Management (Not Recommended)
-
-#### Create and activate Python virtual environment
-
-> If crawling Douyin and Zhihu, you need to install nodejs environment in advance, version greater than or equal to: `16`
-
-```shell
-# Enter project root directory
-cd WeMediaCrawler
-
-# Create virtual environment
-# The libraries in requirements.txt are based on python 3.11
-# If using other python versions, the libraries in requirements.txt may not be compatible, please resolve on your own
-python -m venv venv
-
-# macOS & Linux activate virtual environment
-source venv/bin/activate
-
-# Windows activate virtual environment
-venv\Scripts\activate
-```
-
-#### Install dependency libraries
-
-```shell
-pip install -r requirements.txt
-```
-
-#### Install playwright browser driver
-
-```shell
-playwright install
-```
-
-#### Run crawler program (native environment)
-
-```shell
-# The project does not enable comment crawling mode by default. If you need comments, please modify the ENABLE_GET_COMMENTS variable in config/base_config.py
-# Other supported options can also be viewed in config/base_config.py with comments
-
-# Read keywords from configuration file to search related posts and crawl post information and comments
-python main.py --platform xhs --lt qrcode --type search
-
-# Read specified post ID list from configuration file to get information and comment information of specified posts
-python main.py --platform xhs --lt qrcode --type detail
-
-# Open corresponding APP to scan QR code for login
-
-# For other platform crawler usage examples, execute the following command to view
-python main.py --help
-```
-
-
-
 ## 💾 Data Storage
 
 WeMediaCrawler supports multiple data storage methods, including CSV, JSON, JSONL, Excel, SQLite, and MySQL databases.
 
 📖 **For detailed usage instructions, please see: [Data Storage Guide](docs/data_storage_guide.md)**
-
 
 ## 📚 References
 
