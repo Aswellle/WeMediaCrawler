@@ -203,7 +203,8 @@ def _build_case(platform: str) -> dict:
                                   "share": 2, "coin": 4, "danmaku": 5, "reply": 6}},
             },
             "update_note": store.update_bilibili_video,
-            "comment_id": "c-bili-1",
+            # bilibili 评论以 rpid 作为 comment_id 落库
+            "comment_id": "1",
             "comment": {
                 "rpid": 1, "parent": 0, "ctime": 1700000001,
                 "content": {"message": "评论内容"},
@@ -521,17 +522,53 @@ def test_mongodb_factory_wiring(storage_env):
 
 @pytest.mark.skipif(not _port_open("127.0.0.1", MONGO_PORT), reason="MongoDB 服务未运行")
 @pytest.mark.asyncio
-async def test_real_mongodb_export(storage_env):
-    from store.xhs import XhsStoreFactory, update_xhs_note
+@pytest.mark.parametrize("platform", ["xhs", "dy", "bili"])
+async def test_real_mongodb_export(storage_env, platform, monkeypatch):
+    """真实 MongoDB（motor 驱动）：upsert 写入 + find_one 回读 + PII 校验"""
+    from database.mongodb_store_base import MongoDBConnection
 
-    config.SAVE_DATA_OPTION = "mongodb"
-    note = {
-        "note_id": "xhs-mongo-1", "type": "normal", "title": "矩阵标题", "desc": "矩阵描述",
-        "user": {"user_id": "xhs-raw-uid-1", "nickname": "小红书用户甲"},
-        "interact_info": {"liked_count": "12", "collected_count": "3",
-                          "comment_count": "2", "share_count": "1"},
-        "image_list": [], "tag_list": [],
-    }
-    await update_xhs_note(note)
-    store = XhsStoreFactory.create_store()
-    assert store is not None
+    content_key = {"xhs": "note_id", "dy": "aweme_id", "bili": "video_id"}[platform]
+    package_name = {"xhs": "xhs", "dy": "douyin", "bili": "bilibili"}[platform]
+    factory_name = {"xhs": "XhsStoreFactory", "dy": "DouyinStoreFactory",
+                    "bili": "BiliStoreFactory"}[platform]
+
+    monkeypatch.setattr(config, "SAVE_DATA_OPTION", "mongodb")
+    monkeypatch.setattr(
+        "database.mongodb_store_base.db_config.mongodb_config",
+        {"host": "127.0.0.1", "port": MONGO_PORT, "user": "",
+         "password": "", "db_name": "media_crawler_matrix"},
+    )
+    # 重置单例连接，确保连到测试实例（_client 在实例属性上，须取实例重置）
+    mongo_conn = MongoDBConnection()
+    if mongo_conn._client is not None:
+        mongo_conn._client.close()
+    mongo_conn._client = None
+    mongo_conn._db = None
+
+    case = _build_case(platform)
+    await _store_case(case)
+
+    from importlib import import_module
+    store = getattr(import_module(f"store.{package_name}"), factory_name).create_store()
+
+    content_row = await store.mongo_store.find_one(
+        "contents", {content_key: case["content_id"]}
+    )
+    assert content_row, f"{platform} 内容应写入 MongoDB"
+    _assert_content_pii(content_row, case)
+
+    comment_row = await store.mongo_store.find_one(
+        "comments", {"comment_id": case["comment_id"]}
+    )
+    assert comment_row, f"{platform} 评论应写入 MongoDB"
+    _assert_comment_pii(comment_row, case)
+
+    # upsert 语义：重复写入不产生第二条
+    await case["update_note"](case["content"])
+    collection = await store.mongo_store.get_collection("contents")
+    count = await collection.count_documents({content_key: case["content_id"]})
+    assert count == 1, "重复写入应更新而非新增"
+
+    mongo_conn._client.close()
+    mongo_conn._client = None
+    mongo_conn._db = None
