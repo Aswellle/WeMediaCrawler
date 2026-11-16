@@ -24,6 +24,7 @@
 from typing import List
 
 import config
+from media_downloader.summary import write_note_summary
 from media_platform.douyin.media import extract_cover_url, extract_image_urls, extract_video_urls
 from var import source_keyword_var
 from tools.user_hash import anonymize_user_id, mask_nickname
@@ -117,6 +118,9 @@ async def update_douyin_aweme(aweme_item: Dict):
     }
     utils.logger.info(f"[store.douyin.update_douyin_aweme] douyin aweme id:{aweme_id}, title:{save_content_item.get('title')}")
     await DouyinStoreFactory.create_store().store_content(content_item=save_content_item)
+    # 媒体下载开启时，在媒体目录里附带一份本条内容的 CSV 摘要（字段已脱敏）
+    if config.ENABLE_GET_MEDIA:
+        await write_note_summary(platform="dy", content_id=aweme_id, fields=save_content_item)
 
 
 async def batch_update_dy_aweme_comments(aweme_id: str, comments: List[Dict]):

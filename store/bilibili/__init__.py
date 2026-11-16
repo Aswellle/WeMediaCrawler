@@ -25,6 +25,7 @@
 from typing import List
 
 import config
+from media_downloader.summary import write_note_summary
 from var import source_keyword_var
 from tools.user_hash import anonymize_user_id, mask_nickname
 
@@ -79,6 +80,9 @@ async def update_bilibili_video(video_item: Dict):
     }
     utils.logger.info(f"[store.bilibili.update_bilibili_video] bilibili video id:{video_id}, title:{save_content_item.get('title')}")
     await BiliStoreFactory.create_store().store_content(content_item=save_content_item)
+    # 媒体下载开启时，在媒体目录里附带一份本条内容的 CSV 摘要（字段已脱敏）
+    if config.ENABLE_GET_MEDIA:
+        await write_note_summary(platform="bili", content_id=video_id, fields=save_content_item)
 
 
 async def update_up_info(video_item: Dict):

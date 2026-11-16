@@ -24,6 +24,7 @@
 from typing import List
 
 import config
+from media_downloader.summary import write_note_summary
 from media_platform.xhs.media import extract_image_urls, extract_video_urls
 from var import source_keyword_var
 from tools.user_hash import anonymize_user_id, mask_nickname
@@ -90,6 +91,9 @@ async def update_xhs_note(note_item: Dict):
     }
     utils.logger.info(f"[store.xhs.update_xhs_note] xhs note: {local_db_item}")
     await XhsStoreFactory.create_store().store_content(local_db_item)
+    # 媒体下载开启时，在媒体目录里附带一份本条内容的 CSV 摘要（字段已脱敏）
+    if config.ENABLE_GET_MEDIA:
+        await write_note_summary(platform="xhs", content_id=note_id, fields=local_db_item)
 
 
 async def batch_update_xhs_note_comments(note_id: str, comments: List[Dict]):
