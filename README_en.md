@@ -140,6 +140,34 @@ uv run main.py --platform xhs --lt qrcode --type detail
 uv run main.py --help
 ```
 
+### 🤖 One-Shot Usage via AI Agent (Recommended)
+
+If you are using an AI coding assistant (Claude Code, Codex, Cursor, etc.), **there is no need to read this document line by line**: paste the prompt below to it, and the agent will handle the whole flow of "understanding the project → composing parameters → running the crawl → verifying output".
+
+```text
+You are the data collection engineer of this repository. Complete the following task with single concurrency and small scale, collecting public data only:
+1. Read config/base_config.py (all switches have Chinese comments) and the output of `uv run main.py --help`; do not modify source code;
+2. My collection target: platform=xhs/dy/ks/bili/wb/tieba/zhihu, keyword or content ID="<fill in here>",
+   data needed: post content / comments / media files (specify as needed);
+3. Run the collection with a single command (every switch is a CLI parameter, no config file editing needed), for example:
+   uv run main.py --platform xhs --lt qrcode --type search --keywords "food" \
+     --crawler_max_notes_count 20 --get_comment true --get_sub_comment true \
+     --get_media true --max_comments_count_singlenotes 20 --max_concurrency_num 1 \
+     --save_data_option csv --save_data_path ./data
+   For specific posts use --type detail --specified_id "<post link or ID>"; for creators use --type creator --creator_id "<profile link or ID>";
+4. When login is required (QR code or browser confirmation dialog), ask me to do it manually; do not interrupt me otherwise;
+5. When finished, report: file list and row/file counts under data/, and spot-check sanitization (creator_hash is a 16-char hash, nicknames are masked).
+If a captcha, access restriction, or platform risk-control notice appears, stop immediately and tell me; do not retry to bypass it.
+```
+
+**Why this is faster**:
+
+- Every capability is a CLI flag (`--platform / --type / --keywords / --specified_id / --creator_id / --get_media / --get_comment / --get_sub_comment / --max_comments_count_singlenotes / --max_concurrency_num / --save_data_option / --save_data_path`); the agent can compose any crawl shape without touching code;
+- Export format switches via `--save_data_option` (csv/excel/json/jsonl/sqlite/db/postgres/mongodb), and each media folder carries a `summary.csv` note summary for easy browsing;
+- After the first QR login, the login state is kept in the browser, so later runs won't interrupt you.
+
+> ⚠️ **Compliance Reminder**: Collect public data at a small scale, and respect the target platform's terms and robots.txt; the project license is for learning and research purposes only.
+
 > ⚠️ **Backend Service Reminder**: The following WebUI visual interface depends on the backend API service to run. Before first use, please **start the backend separately first**:
 >
 > ```shell

@@ -139,6 +139,34 @@ uv run main.py --platform xhs --lt qrcode --type detail
 uv run main.py --help
 ```
 
+### 🤖 交给 AI Agent 一键使用（推荐）
+
+如果你正在使用 AI 编程助手（Claude Code、Codex、Cursor 等），**无需逐条阅读文档**：把下面这段提示词整段发给它，Agent 会自己完成「读懂项目 → 组合参数 → 运行采集 → 校验产物」的全流程。
+
+```text
+你是本仓库的数据采集工程师。请完成以下任务，全程单并发、小规模，只采集公开数据：
+1. 阅读 config/base_config.py（所有开关均有中文注释）与 `uv run main.py --help` 的输出，不要修改源码；
+2. 我的采集目标：平台=xhs/dy/ks/bili/wb/tieba/zhihu，关键词或内容ID="<在此填写>"，
+   需要的数据：笔记内容 / 评论 / 媒体文件（按需说明）；
+3. 用一条命令完成采集（全部开关都是 CLI 参数，无需改配置文件），例如：
+   uv run main.py --platform xhs --lt qrcode --type search --keywords "美食" \
+     --crawler_max_notes_count 20 --get_comment true --get_sub_comment true \
+     --get_media true --max_comments_count_singlenotes 20 --max_concurrency_num 1 \
+     --save_data_option csv --save_data_path ./data
+   指定内容用 --type detail --specified_id "<帖子链接或ID>"，指定创作者用 --type creator --creator_id "<主页链接或ID>"；
+4. 运行后需要登录时（弹出二维码或浏览器确认框）提醒我人工操作，其余步骤不要打断我；
+5. 结束后汇报：data/ 下产出的文件清单与行数/文件数，并抽查脱敏是否生效（creator_hash 为 16 位哈希、昵称已打码）。
+遇到验证码、访问受限或平台风控提示时立即停止并告诉我，不要重试规避。
+```
+
+**为什么这样更快**：
+
+- 全部能力都是 CLI 参数（`--platform / --type / --keywords / --specified_id / --creator_id / --get_media / --get_comment / --get_sub_comment / --max_comments_count_singlenotes / --max_concurrency_num / --save_data_option / --save_data_path`），Agent 不改任何代码即可组合出全部采集形态；
+- 导出格式随 `--save_data_option` 一键切换（csv/excel/json/jsonl/sqlite/db/postgres/mongodb），媒体目录还会附带 `summary.csv` 摘要方便浏览；
+- 首次扫码登录后登录态保存在浏览器中，Agent 后续采集无需再打断你。
+
+> ⚠️ **合规提醒**：请小规模采集公开数据，遵守目标平台条款与 robots.txt；项目许可证仅限学习研究用途。
+
 > ⚠️ **后端服务提醒**：以下 WebUI 可视化界面依赖后端 API 服务才能运行。首次使用前，请**先单独启动后端**：
 >
 > ```shell
