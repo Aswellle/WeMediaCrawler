@@ -143,8 +143,15 @@ async def test_merge_kills_subprocess_when_cancelled(tmp_path, monkeypatch):
             handle = ctypes.windll.kernel32.OpenProcess(SYNCHRONIZE, False, pid)
             if not handle:
                 return False
-            ctypes.windll.kernel32.CloseHandle(handle)
-            return True
+            try:
+                # OpenProcess 成功不代表进程还在跑：被终止的进程在所有句柄关闭前
+                # 内核对象仍然存在（父进程的 Popen 句柄就握着它）。
+                # 用 WaitForSingleObject(0) 轮询信号态：已退出的进程句柄立刻置为 signaled。
+                WAIT_OBJECT_0 = 0x00000000
+                state = ctypes.windll.kernel32.WaitForSingleObject(handle, 0)
+                return state != WAIT_OBJECT_0
+            finally:
+                ctypes.windll.kernel32.CloseHandle(handle)
 
         task = asyncio.create_task(
             ffmpeg_module.merge_audio_video(

@@ -438,7 +438,7 @@ class XiaoHongShuClient(AbstractApiClient, ProxyRefreshMixin):
             xsec_token: Verification token
             crawl_interval: Crawl delay per note (seconds)
             callback: Callback after one note crawl ends
-            max_count: Maximum number of comments to crawl per note
+            max_count: Maximum number of comments (including sub-comments) to crawl per note
         Returns:
 
         """
@@ -468,6 +468,9 @@ class XiaoHongShuClient(AbstractApiClient, ProxyRefreshMixin):
                 xsec_token=xsec_token,
                 crawl_interval=crawl_interval,
                 callback=callback,
+                # 子评论与一级评论共享同一配额：剩余额度不足以翻页时立即停，
+                # 否则热门评论的数万条子评论会无视 max_count 一直翻页
+                max_count=max_count - len(result),
             )
             result.extend(sub_comments)
         return result
@@ -478,15 +481,16 @@ class XiaoHongShuClient(AbstractApiClient, ProxyRefreshMixin):
         xsec_token: str,
         crawl_interval: float = 1.0,
         callback: Optional[Callable] = None,
+        max_count: int = 10,
     ) -> List[Dict]:
         """
-        Get all second-level comments under specified first-level comments, this method will continuously find all second-level comment information under first-level comments
+        Get second-level comments under specified first-level comments, up to max_count in total
         Args:
             comments: Comment list
             xsec_token: Verification token
             crawl_interval: Crawl delay per comment (seconds)
             callback: Callback after one comment crawl ends
-
+            max_count: Maximum number of sub-comments to crawl for this batch
         Returns:
 
         """
@@ -498,11 +502,16 @@ class XiaoHongShuClient(AbstractApiClient, ProxyRefreshMixin):
 
         result = []
         for comment in comments:
+            if len(result) >= max_count:
+                break
             try:
                 note_id = comment.get("note_id")
                 sub_comments = comment.get("sub_comments")
                 if sub_comments and callback:
+                    if len(result) + len(sub_comments) > max_count:
+                        sub_comments = sub_comments[: max_count - len(result)]
                     await callback(note_id, sub_comments)
+                    result.extend(sub_comments)
 
                 sub_comment_has_more = comment.get("sub_comment_has_more")
                 if not sub_comment_has_more:
@@ -511,7 +520,7 @@ class XiaoHongShuClient(AbstractApiClient, ProxyRefreshMixin):
                 root_comment_id = comment.get("id")
                 sub_comment_cursor = comment.get("sub_comment_cursor")
 
-                while sub_comment_has_more:
+                while sub_comment_has_more and len(result) < max_count:
                     try:
                         comments_res = await self.get_note_sub_comments(
                             note_id=note_id,
@@ -534,6 +543,8 @@ class XiaoHongShuClient(AbstractApiClient, ProxyRefreshMixin):
                             )
                             break
                         comments = comments_res["comments"]
+                        if len(result) + len(comments) > max_count:
+                            comments = comments[: max_count - len(result)]
                         if callback:
                             await callback(note_id, comments)
                         await asyncio.sleep(crawl_interval)
