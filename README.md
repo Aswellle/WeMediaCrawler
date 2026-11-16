@@ -56,7 +56,6 @@
 - **无需JS逆向**：利用保留登录态的浏览器上下文环境，通过 JS 表达式获取签名参数
 - **优势特点**：无需逆向复杂的加密算法，大幅降低技术门槛
 
-
 ## ✨ 功能特性
 
 | 平台   | 关键词搜索 | 指定帖子ID爬取 | 二级评论 | 指定创作者主页 | 登录态缓存 | IP代理池 | 生成评论词云图 |
@@ -68,7 +67,6 @@
 | 微博   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 | 贴吧   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 | 知乎   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
-
 
 ## 🚀 快速开始
 
@@ -231,67 +229,11 @@ uv run uvicorn api.main:app --port 8080 --reload
 | --- | --- |
 | ![运行日志](docs/static/images/webui_logs.png) | — |
 
-
-## 🔗 使用 Python 原生 venv 管理环境（不推荐）
-
-#### 创建并激活 Python 虚拟环境
-
-> 如果是爬取抖音和知乎，需要提前安装 nodejs 环境，版本大于等于：`16` 即可
-
-```shell
-# 进入项目根目录
-cd WeMediaCrawler
-
-# 创建虚拟环境
-# requirements.txt 中的库基于 python 3.11
-# 如果是其他 python 版本，可能 requirements.txt 中的库不兼容，需自行解决
-python -m venv venv
-
-# macOS & Linux 激活虚拟环境
-source venv/bin/activate
-
-# Windows 激活虚拟环境
-venv\Scripts\activate
-```
-
-#### 安装依赖库
-
-```shell
-pip install -r requirements.txt
-```
-
-#### 安装 playwright 浏览器驱动
-
-```shell
-playwright install
-```
-
-#### 运行爬虫程序（原生环境）
-
-```shell
-# 项目默认是没有开启评论爬取模式，如需评论请在 config/base_config.py 中的 ENABLE_GET_COMMENTS 变量修改
-# 一些其他支持项，也可以在 config/base_config.py 查看功能，写的有中文注释
-
-# 从配置文件中读取关键词搜索相关的帖子并爬取帖子信息与评论
-python main.py --platform xhs --lt qrcode --type search
-
-# 从配置文件中读取指定的帖子ID列表获取指定帖子的信息与评论信息
-python main.py --platform xhs --lt qrcode --type detail
-
-# 打开对应APP扫二维码登录
-
-# 其他平台爬虫使用示例，执行下面的命令查看
-python main.py --help
-```
-
-
-
 ## 💾 数据保存
 
 WeMediaCrawler 支持多种数据存储方式，包括 CSV、JSON、JSONL、Excel、SQLite 和 MySQL 数据库。
 
 📖 **详细使用说明请查看：[数据存储指南](docs/data_storage_guide.md)**
-
 
 ## 📚 参考
 

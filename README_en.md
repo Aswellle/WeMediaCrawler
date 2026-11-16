@@ -70,7 +70,6 @@ A powerful **multi-platform social media data collection tool** that supports cr
 | Tieba   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 | Zhihu   | ✅          | ✅              | ✅        | ✅              | ✅          | ✅        | ✅              |
 
-
 ## 🚀 Quick Start
 
 ## 📋 Prerequisites
@@ -232,67 +231,11 @@ After that, visit `http://localhost:8080`.
 | --- | --- |
 | ![Run Logs](docs/static/images/webui_logs.png) | — |
 
-
-## 🔗 Using Python Native venv Environment Management (Not Recommended)
-
-#### Create and activate Python virtual environment
-
-> If crawling Douyin and Zhihu, you need to install nodejs environment in advance, version greater than or equal to: `16`
-
-```shell
-# Enter project root directory
-cd WeMediaCrawler
-
-# Create virtual environment
-# The libraries in requirements.txt are based on python 3.11
-# If using other python versions, the libraries in requirements.txt may not be compatible, please resolve on your own
-python -m venv venv
-
-# macOS & Linux activate virtual environment
-source venv/bin/activate
-
-# Windows activate virtual environment
-venv\Scripts\activate
-```
-
-#### Install dependency libraries
-
-```shell
-pip install -r requirements.txt
-```
-
-#### Install playwright browser driver
-
-```shell
-playwright install
-```
-
-#### Run crawler program (native environment)
-
-```shell
-# The project does not enable comment crawling mode by default. If you need comments, please modify the ENABLE_GET_COMMENTS variable in config/base_config.py
-# Other supported options can also be viewed in config/base_config.py with comments
-
-# Read keywords from configuration file to search related posts and crawl post information and comments
-python main.py --platform xhs --lt qrcode --type search
-
-# Read specified post ID list from configuration file to get information and comment information of specified posts
-python main.py --platform xhs --lt qrcode --type detail
-
-# Open corresponding APP to scan QR code for login
-
-# For other platform crawler usage examples, execute the following command to view
-python main.py --help
-```
-
-
-
 ## 💾 Data Storage
 
 WeMediaCrawler supports multiple data storage methods, including CSV, JSON, JSONL, Excel, SQLite, and MySQL databases.
 
 📖 **For detailed usage instructions, please see: [Data Storage Guide](docs/data_storage_guide.md)**
-
 
 ## 📚 References
 
