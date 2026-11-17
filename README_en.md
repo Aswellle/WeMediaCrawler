@@ -141,29 +141,61 @@ uv run main.py --help
 
 ### 🤖 One-Shot Usage via AI Agent (Recommended)
 
-If you are using an AI coding assistant (Claude Code, Codex, Cursor, etc.), **there is no need to read this document line by line**: paste the prompt below to it, and the agent will handle the whole flow of "understanding the project → composing parameters → running the crawl → verifying output".
+If you are using an AI coding assistant (Claude Code, Codex, Cursor, etc.), **there is no need to read this document line by line**: paste the prompt below to it (just fill in "local directory" and "collection target"), and the agent will start from scratch and handle the whole flow of "**cloning the repo → installing dependencies → preparing browser login state → (optionally) starting local services → running the crawl → verifying output → reporting**".
 
 ```text
-You are the data collection engineer of this repository. Complete the following task with single concurrency and small scale, collecting public data only:
-1. Read config/base_config.py (all switches have Chinese comments) and the output of `uv run main.py --help`; do not modify source code;
-2. My collection target: platform=xhs/dy/ks/bili/wb/tieba/zhihu, keyword or content ID="<fill in here>",
-   data needed: post content / comments / media files (specify as needed);
-3. Run the collection with a single command (every switch is a CLI parameter, no config file editing needed), for example:
+You are the data collection engineer of this repository. Deploy and collect from scratch, with single concurrency and small scale, collecting public data only.
+
+[Phase 0: clone the online repo into a local directory]
+1. Clone the repository into my specified local directory (create parent dirs if missing):
+   git clone https://github.com/Aswellle/WeMediaCrawler.git "<my local directory>"
+   cd "<my local directory>"
+2. Install Python dependencies (the project uses uv; if uv is missing, first install it per
+   https://docs.astral.sh/uv/getting-started/installation):
+   uv sync
+3. Only if I want the non-CDP Playwright mode, also run uv run playwright install; the default CDP mode skips it.
+
+[Phase 1: prepare browser and login state]
+4. The default CDP mode requires Chrome >= 144: open chrome://inspect/#remote-debugging in Chrome,
+   enable "Allow remote debugging for this browser instance"; the page shows 127.0.0.1:9222 when ready.
+   When the first run needs a QR login, ask me to scan the QR code / accept the browser dialog manually; do not interrupt me otherwise.
+
+[Phase 2: run the collection (no source edits; all via CLI parameters)]
+5. First read config/base_config.py (all switches have Chinese comments) and the output of `uv run main.py --help`, then run:
+   My collection target: platform=xhs/dy/ks/bili/wb/tieba/zhihu, keyword or content ID="<fill in here>",
+   data needed: post content / comments / media files (specify as needed).
+   Example (replace parameters with my target):
    uv run main.py --platform xhs --lt qrcode --type search --keywords "food" \
      --crawler_max_notes_count 20 --get_comment true --get_sub_comment true \
      --get_media true --max_comments_count_singlenotes 20 --max_concurrency_num 1 \
      --save_data_option csv --save_data_path ./data
-   For specific posts use --type detail --specified_id "<post link or ID>"; for creators use --type creator --creator_id "<profile link or ID>";
-4. When login is required (QR code or browser confirmation dialog), ask me to do it manually; do not interrupt me otherwise;
-5. When finished, report: file list and row/file counts under data/, and spot-check sanitization (creator_hash is a 16-char hash, nicknames are masked).
-If a captcha, access restriction, or platform risk-control notice appears, stop immediately and tell me; do not retry to bypass it.
+   For specific posts: --type detail --specified_id "<post link or ID>"
+   For creators: --type creator --creator_id "<profile link or ID>"
+
+[Phase 3: start local services when a visual UI is needed (only if I want the WebUI)]
+6. Terminal 1, start the backend API (the frontend dev server proxies /api to 8083, so use 8083 here):
+   uv run uvicorn api.main:app --port 8083 --reload
+   Terminal 2, start the frontend:
+   cd webui && npm install && npm run dev
+   Then open http://localhost:5173 ; backend health check is http://localhost:8083/api/env/check .
+   If pure data collection is enough, skip this phase.
+7. To let the API server host the built frontend: run cd webui && npm run build (output defaults to gh-pages-dist/),
+   then copy the output into api/webui/, and start only uv run uvicorn api.main:app --port 8080 --reload ;
+   open http://localhost:8080 .
+
+[Phase 4: report and verify]
+8. Report: file list under data/ with row/file counts, and spot-check sanitization
+   (creator_hash is a 16-char hash, nicknames are masked).
+9. If a captcha, access restriction, or platform risk-control notice appears, stop immediately and tell me; do not retry to bypass it.
 ```
 
-**Why this is faster**:
+**Why this saves effort**:
 
+- **One prompt from zero to working**: cloning, dependency install, browser login state, service startup, parameter composition and output verification are all chained by the agent — you only provide the "local directory" and the "collection target";
 - Every capability is a CLI flag (`--platform / --type / --keywords / --specified_id / --creator_id / --get_media / --get_comment / --get_sub_comment / --max_comments_count_singlenotes / --max_concurrency_num / --save_data_option / --save_data_path`); the agent can compose any crawl shape without touching code;
 - Export format switches via `--save_data_option` (csv/excel/json/jsonl/sqlite/db/postgres/mongodb), and each media folder carries a `summary.csv` note summary for easy browsing;
-- After the first QR login, the login state is kept in the browser, so later runs won't interrupt you.
+- After the first QR login, the login state is kept in the browser, so later runs won't interrupt you;
+- Pure data collection needs no local service at all; start the API + WebUI only when a UI is needed (Phase 3).
 
 > ⚠️ **Compliance Reminder**: Collect public data at a small scale, and respect the target platform's terms and robots.txt; the project license is for learning and research purposes only.
 
