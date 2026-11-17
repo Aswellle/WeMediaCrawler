@@ -203,6 +203,17 @@ class ExcelStoreBase(AbstractStore):
 
         self._apply_header_style(sheet)
 
+    # Excel 公式注入防护：平台抓取的文本可能以这些字符开头，
+    # Excel/WPS 打开时会把它们当公式执行（CVE 类教科书问题，OWASP CSV 注入同源）。
+    # 加前缀单引号让单元格保持字面文本。
+    _FORMULA_PREFIXES = ("=", "+", "-", "@", "\t", "\r")
+
+    @classmethod
+    def _neutralize_formula(cls, value: Any) -> Any:
+        if isinstance(value, str) and value.startswith(cls._FORMULA_PREFIXES):
+            return "'" + value
+        return value
+
     def _write_row(self, sheet, data: Dict[str, Any], headers: List[str]):
         """
         Write data row to sheet
@@ -223,7 +234,7 @@ class ExcelStoreBase(AbstractStore):
             elif value is None:
                 value = ""
 
-            cell = sheet.cell(row=row_num, column=col_num, value=value)
+            cell = sheet.cell(row=row_num, column=col_num, value=self._neutralize_formula(value))
 
             # Apply basic formatting
             cell.alignment = Alignment(vertical="top", wrap_text=True)
