@@ -248,7 +248,11 @@ class BilibiliCrawler(AbstractCrawler):
                 await asyncio.sleep(config.CRAWLER_MAX_SLEEP_SEC)
                 utils.logger.info(f"[BilibiliCrawler.search_by_keywords] Sleeping for {config.CRAWLER_MAX_SLEEP_SEC} seconds after page {page-1}")
 
-                await self.batch_get_video_comments(video_id_list)
+                # 评论是旁路能力：网络错误不能让已完成的搜索结果采集一起失败
+                try:
+                    await self.batch_get_video_comments(video_id_list)
+                except Exception as e:
+                    utils.logger.error(f"[BilibiliCrawler.search_by_keywords] batch comments error: {e}, 跳过本页评论")
 
     async def search_by_keywords_in_time_range(self, daily_limit: bool):
         """
@@ -329,7 +333,10 @@ class BilibiliCrawler(AbstractCrawler):
                         await asyncio.sleep(config.CRAWLER_MAX_SLEEP_SEC)
                         utils.logger.info(f"[BilibiliCrawler.search_by_keywords_in_time_range] Sleeping for {config.CRAWLER_MAX_SLEEP_SEC} seconds after page {page-1}")
 
-                        await self.batch_get_video_comments(video_id_list)
+                        try:
+                            await self.batch_get_video_comments(video_id_list)
+                        except Exception as e:
+                            utils.logger.error(f"[BilibiliCrawler.search_by_keywords_in_time_range] batch comments error: {e}, 跳过本页评论")
 
                     except Exception as e:
                         utils.logger.error(f"[BilibiliCrawler.search] Error searching on {day.ctime()}: {e}")
@@ -427,7 +434,11 @@ class BilibiliCrawler(AbstractCrawler):
                 await bilibili_store.update_bilibili_video(video_detail)
                 await bilibili_store.update_up_info(video_detail)
                 await self.download_media(video_detail, semaphore)
-        await self.batch_get_video_comments(video_aids_list)
+        # 评论是旁路能力：detail 流程的网络错误不能让已入库的视频白采
+        try:
+            await self.batch_get_video_comments(video_aids_list)
+        except Exception as e:
+            utils.logger.error(f"[BilibiliCrawler.get_specified_videos] batch comments error: {e}, 跳过评论")
 
     async def get_video_info_task(self, aid: int, bvid: str, semaphore: asyncio.Semaphore) -> Optional[Dict]:
         """

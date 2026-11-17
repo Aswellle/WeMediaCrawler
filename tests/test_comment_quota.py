@@ -27,6 +27,8 @@ from __future__ import annotations
 
 import config
 import pytest
+from types import SimpleNamespace
+from unittest.mock import AsyncMock
 
 from media_platform.weibo.client import WeiboClient
 from media_platform.xhs.client import XiaoHongShuClient
@@ -176,3 +178,85 @@ async def test_zhihu_sub_comments_share_quota(monkeypatch):
 
     assert len(stored) == 7, f"配额应恰好用满: {len(stored)}"
     assert len(total) == 7
+
+
+@pytest.mark.asyncio
+async def test_douyin_sub_comments_share_quota(monkeypatch):
+    """抖音子评论与一级评论共享配额（实机发现 3 配额抓出数千条子评论）"""
+    from media_platform.douyin.client import DouYinClient
+
+    monkeypatch.setattr(config, "ENABLE_GET_SUB_COMMENTS", True)
+    client = DouYinClient.__new__(DouYinClient)
+
+    stored = []
+
+    async def callback(aweme_id, comments):
+        stored.extend(comments)
+
+    async def fake_root(aweme_id, cursor):
+        return {"has_more": False, "cursor": 0,
+                "comments": [{"cid": f"c{i}", "reply_comment_total": 5} for i in range(3)]}
+
+    async def fake_sub(aweme_id, comment_id, cursor):
+        return {"has_more": True, "cursor": int(cursor or 0) + 1,
+                "comments": [{"cid": f"{comment_id}-s{cursor}-{i}"} for i in range(10)]}
+
+    client.get_aweme_comments = fake_root
+    client.get_sub_comments = fake_sub
+
+    total = await client.get_aweme_all_comments(
+        aweme_id="a1", crawl_interval=0,
+        is_fetch_sub_comments=True, callback=callback, max_count=5,
+    )
+
+    assert len(stored) == 5, f"配额应恰好用满: {len(stored)}"
+    assert len(total) == 5
+    # 一级评论 3 条 + 子评论补足到 5；子评论翻页必须停在配额内
+
+
+@pytest.mark.asyncio
+async def test_tieba_sub_comments_share_quota(monkeypatch):
+    """贴吧子评论（Playwright 翻页模式）同样受配额约束"""
+    from model.m_baidu_tieba import TiebaComment, TiebaNote
+    from media_platform.tieba.client import BaiduTieBaClient
+
+    monkeypatch.setattr(config, "ENABLE_GET_SUB_COMMENTS", True)
+    monkeypatch.setattr(config, "CRAWLER_MAX_SLEEP_SEC", 0)
+    client = BaiduTieBaClient.__new__(BaiduTieBaClient)
+
+    parent = TiebaComment(comment_id="p1", content="c", note_id="n1",
+                          note_url="https://tieba/p/1", tieba_id="fid",
+                          tieba_name="python", tieba_link="https://tieba/f?kw=python",
+                          sub_comment_count=30)
+    note = TiebaNote(note_id="n1", title="t", note_url="https://tieba/p/1",
+                     tieba_name="python", tieba_link="https://tieba/f?kw=python")
+
+    async def callback(note_id, comments):
+        pass
+
+    async def fake_page_comments(post_id, page):
+        return [note]
+
+    client._host = "https://tieba.baidu.com"
+    client._page_extractor = SimpleNamespace(
+        extract_tieba_note_sub_comments=lambda html, parent_comment: [
+            TiebaComment(comment_id=f"{parent_comment.comment_id}-{i}", content="s",
+                         note_id="n1", note_url="https://tieba/p/1", tieba_id="fid",
+                         tieba_name="python", tieba_link="https://tieba/f?kw=python")
+            for i in range(10)
+        ]
+    )
+    client.playwright_page = SimpleNamespace(
+        goto=AsyncMock(return_value=None),
+        content=AsyncMock(return_value="<html></html>"),
+    )
+
+    async def fake_get_root(note_id, page):
+        return [parent]
+
+    # 直接测子评论方法本身的配额
+    result = await client.get_comments_all_sub_comments(
+        [parent], crawl_interval=0, callback=callback, max_count=7,
+    )
+
+    assert len(result) <= 7, f"子评论数超配额: {len(result)}"

@@ -500,7 +500,10 @@ class BaiduTieBaClient(AbstractApiClient):
 
                 # Get all sub-comments
                 await self.get_comments_all_sub_comments(
-                    comments, crawl_interval=crawl_interval, callback=callback
+                    comments,
+                    crawl_interval=crawl_interval,
+                    callback=callback,
+                    max_count=max_count - len(result),
                 )
 
                 await asyncio.sleep(crawl_interval)
@@ -518,6 +521,7 @@ class BaiduTieBaClient(AbstractApiClient):
         comments: List[TiebaComment],
         crawl_interval: float = 1.0,
         callback: Optional[Callable] = None,
+        max_count: int = 10,
     ) -> List[TiebaComment]:
         """
         Get all sub-comments for specified comments (uses Playwright to access page, avoiding API detection)
@@ -539,13 +543,15 @@ class BaiduTieBaClient(AbstractApiClient):
         all_sub_comments: List[TiebaComment] = []
 
         for parment_comment in comments:
+            if len(all_sub_comments) >= max_count:
+                break
             if parment_comment.sub_comment_count == 0:
                 continue
 
             current_page = 1
             max_sub_page_num = parment_comment.sub_comment_count // 10 + 1
 
-            while max_sub_page_num >= current_page:
+            while max_sub_page_num >= current_page and len(all_sub_comments) < max_count:
                 # Construct sub-comment URL
                 sub_comment_url = (
                     f"{self._host}/p/comment?"
@@ -577,6 +583,9 @@ class BaiduTieBaClient(AbstractApiClient):
                             f"Comment {parment_comment.comment_id} page {current_page} has no sub-comments, stopping crawl"
                         )
                         break
+
+                    if len(all_sub_comments) + len(sub_comments) > max_count:
+                        sub_comments = sub_comments[: max_count - len(all_sub_comments)]
 
                     if callback:
                         await callback(parment_comment.note_id, sub_comments)
