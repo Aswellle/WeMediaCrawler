@@ -92,6 +92,20 @@ def _to_bool(value: bool | str) -> bool:
     return str2bool(value)
 
 
+def _require_min(value: int, minimum: int, option: str) -> int:
+    """数值型参数下限校验。
+
+    0 并发会让 asyncio.Semaphore(0) 永久阻塞、负数并发直接抛 ValueError；
+    负数的数量/页数则会静默爬取 0 条。统一在这里拒绝，给出可读报错。
+    """
+    if value < minimum:
+        raise typer.BadParameter(
+            f"{option} must be >= {minimum} (got {value})",
+            param_hint=option,
+        )
+    return value
+
+
 def _coerce_enum(
     enum_cls: Type[EnumT],
     value: EnumT | str,
@@ -351,6 +365,15 @@ async def parse_cmd(argv: Optional[Sequence[str]] = None):
         enable_ip_proxy_value = _to_bool(enable_ip_proxy)
         init_db_value = init_db.value if init_db else None
 
+        # 数值参数下限校验：避免 0 并发死锁、负数静默爬取 0 条等边界问题
+        start = _require_min(start, 1, "--start")
+        max_comments_count_singlenotes = _require_min(
+            max_comments_count_singlenotes, 1, "--max_comments_count_singlenotes"
+        )
+        crawler_max_notes_count = _require_min(crawler_max_notes_count, 1, "--crawler_max_notes_count")
+        max_concurrency_num = _require_min(max_concurrency_num, 1, "--max_concurrency_num")
+        ip_proxy_pool_count = _require_min(ip_proxy_pool_count, 1, "--ip_proxy_pool_count")
+
         # Parse specified_id and creator_id into lists
         specified_id_list = [id.strip() for id in specified_id.split(",") if id.strip()] if specified_id else []
         creator_id_list = [id.strip() for id in creator_id.split(",") if id.strip()] if creator_id else []
@@ -411,6 +434,8 @@ async def parse_cmd(argv: Optional[Sequence[str]] = None):
                 config.TIEBA_CREATOR_URL_LIST = [
                     _normalize_tieba_creator_url(item) for item in creator_id_list
                 ]
+            elif platform == PlatformEnum.ZHIHU:
+                config.ZHIHU_CREATOR_URL_LIST = creator_id_list
 
         return SimpleNamespace(
             platform=config.PLATFORM,
