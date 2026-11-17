@@ -50,7 +50,7 @@
 - **质量保障** — 新增媒体获取、导出格式 × 平台、限流与开关等回归矩阵，覆盖真实数据库驱动与真实音视频合流验证
 - **AI Agent 友好** — 快速开始提供可直接交给 AI 编程助手的端到端提示词，从克隆到产出无需改动代码
 
-> 本分支的全部提交与变更记录可通过 [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:WeMediaCrawler:main) 查看。
+> 本分支的全部提交与变更记录可通过 [GitHub 提交历史](https://github.com/Aswellle/WeMediaCrawler/commits/main) 查看。
 
 ---
 

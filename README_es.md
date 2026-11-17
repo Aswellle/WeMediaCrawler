@@ -50,7 +50,7 @@ Este fork introduce los siguientes cambios principales sobre el proyecto origina
 - **Aseguramiento de Calidad** — Nuevas matrices de regresión para adquisición de medios, formato de exportación × plataforma y límites/interruptores, con verificación sobre controladores de bases de datos reales y multiplexación real de audio/vídeo
 - **Amigable para Agentes de IA** — El Inicio Rápido ofrece un prompt de extremo a extremo que puede entregarse a un asistente de programación con IA, desde el clonado hasta la salida sin modificar código
 
-> Todos los registros de commits y cambios de esta rama pueden verse a través de [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:WeMediaCrawler:main).
+> Todos los registros de commits y cambios de esta rama pueden verse a través del [historial de commits de GitHub](https://github.com/Aswellle/WeMediaCrawler/commits/main).
 
 ---
 

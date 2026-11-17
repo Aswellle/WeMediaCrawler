@@ -50,7 +50,7 @@ This fork introduces the following major changes on top of the original project:
 - **Quality Assurance** — New regression matrices for media acquisition, export format × platform, and rate-limit/switch behavior, covering real database drivers and real audio/video muxing
 - **AI-Agent Friendly** — Quick Start offers an end-to-end prompt you can hand to an AI coding assistant, from cloning to output without code changes
 
-> All commits and change records of this branch can be viewed via [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:WeMediaCrawler:main).
+> All commits and change records of this branch can be viewed via the [GitHub commit history](https://github.com/Aswellle/WeMediaCrawler/commits/main).
 
 ---
 
