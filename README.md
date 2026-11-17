@@ -139,29 +139,61 @@ uv run main.py --help
 
 ### 🤖 交给 AI Agent 一键使用（推荐）
 
-如果你正在使用 AI 编程助手（Claude Code、Codex、Cursor 等），**无需逐条阅读文档**：把下面这段提示词整段发给它，Agent 会自己完成「读懂项目 → 组合参数 → 运行采集 → 校验产物」的全流程。
+如果你正在使用 AI 编程助手（Claude Code、Codex、Cursor 等），**无需逐条阅读文档**：把下面这段提示词整段发给它（只需填写「本地目录」与「采集目标」两处），Agent 会从零开始完成「**克隆仓库 → 安装依赖 → 准备浏览器登录态 →（可选）启动本地服务 → 运行采集 → 校验产物 → 汇报**」的全流程。
 
 ```text
-你是本仓库的数据采集工程师。请完成以下任务，全程单并发、小规模，只采集公开数据：
-1. 阅读 config/base_config.py（所有开关均有中文注释）与 `uv run main.py --help` 的输出，不要修改源码；
-2. 我的采集目标：平台=xhs/dy/ks/bili/wb/tieba/zhihu，关键词或内容ID="<在此填写>"，
-   需要的数据：笔记内容 / 评论 / 媒体文件（按需说明）；
-3. 用一条命令完成采集（全部开关都是 CLI 参数，无需改配置文件），例如：
+你是本仓库的数据采集工程师。请从零开始完成部署与采集，全程单并发、小规模，只采集公开数据。
+
+【阶段 0：把线上代码克隆到本地目录】
+1. 克隆仓库到我指定的本地目录（父目录不存在则先创建）：
+   git clone https://github.com/Aswellle/WeMediaCrawler.git "<我的本地目录>"
+   cd "<我的本地目录>"
+2. 安装 Python 依赖（项目统一用 uv 管理；若 uv 未安装，先按
+   https://docs.astral.sh/uv/getting-started/installation 安装）：
+   uv sync
+3. 仅在我要用非 CDP 的 Playwright 模式时，再执行 uv run playwright install；默认 CDP 模式可跳过。
+
+【阶段 1：准备浏览器与登录态】
+4. 默认 CDP 模式要求 Chrome >= 144：在 Chrome 地址栏打开 chrome://inspect/#remote-debugging，
+   勾选 "Allow remote debugging for this browser instance"，页面显示 127.0.0.1:9222 即就绪。
+   首次采集需要扫码登录时，提醒我人工扫描二维码 / 点击浏览器确认框，其余步骤不要打断我。
+
+【阶段 2：运行采集（不改源码，全部通过 CLI 参数）】
+5. 先阅读 config/base_config.py（所有开关均有中文注释）与 `uv run main.py --help` 的输出，然后执行：
+   我的采集目标：平台=xhs/dy/ks/bili/wb/tieba/zhihu，关键词或内容ID="<在此填写>"，
+   需要的数据：笔记内容 / 评论 / 媒体文件（按需说明）。
+   示例（按我的目标替换参数）：
    uv run main.py --platform xhs --lt qrcode --type search --keywords "美食" \
      --crawler_max_notes_count 20 --get_comment true --get_sub_comment true \
      --get_media true --max_comments_count_singlenotes 20 --max_concurrency_num 1 \
      --save_data_option csv --save_data_path ./data
-   指定内容用 --type detail --specified_id "<帖子链接或ID>"，指定创作者用 --type creator --creator_id "<主页链接或ID>"；
-4. 运行后需要登录时（弹出二维码或浏览器确认框）提醒我人工操作，其余步骤不要打断我；
-5. 结束后汇报：data/ 下产出的文件清单与行数/文件数，并抽查脱敏是否生效（creator_hash 为 16 位哈希、昵称已打码）。
-遇到验证码、访问受限或平台风控提示时立即停止并告诉我，不要重试规避。
+   指定内容：--type detail --specified_id "<帖子链接或ID>"
+   指定创作者：--type creator --creator_id "<主页链接或ID>"
+
+【阶段 3：需要可视化操作时启动本地服务（仅当我要用 WebUI）】
+6. 终端 1 启动后端 API（前端开发服务器把 /api 代理到 8083，故此处用 8083）：
+   uv run uvicorn api.main:app --port 8083 --reload
+   终端 2 启动前端：
+   cd webui && npm install && npm run dev
+   启动后访问 http://localhost:5173 ，后端健康检查为 http://localhost:8083/api/env/check 。
+   若只需要采集数据、不需要界面，跳过本阶段。
+7. 若希望由 API 服务器直接托管前端静态资源：先 cd webui && npm run build（产物默认在 gh-pages-dist/），
+   再把产物复制到 api/webui/，最后只需启动 uv run uvicorn api.main:app --port 8080 --reload ，
+   访问 http://localhost:8080 。
+
+【阶段 4：汇报与验收】
+8. 汇报：data/ 下产出的文件清单、行数与文件数，并抽查脱敏是否生效
+   （creator_hash 为 16 位哈希、昵称已打码）。
+9. 遇到验证码、访问受限或平台风控提示时立即停止并告诉我，不要重试规避。
 ```
 
-**为什么这样更快**：
+**为什么这样更省力**：
 
+- **从零到可用一条提示词**：克隆、依赖安装、浏览器登录态准备、服务启动、参数组合、产物校验全部由 Agent 串联，你只需提供「本地目录」和「采集目标」；
 - 全部能力都是 CLI 参数（`--platform / --type / --keywords / --specified_id / --creator_id / --get_media / --get_comment / --get_sub_comment / --max_comments_count_singlenotes / --max_concurrency_num / --save_data_option / --save_data_path`），Agent 不改任何代码即可组合出全部采集形态；
 - 导出格式随 `--save_data_option` 一键切换（csv/excel/json/jsonl/sqlite/db/postgres/mongodb），媒体目录还会附带 `summary.csv` 摘要方便浏览；
-- 首次扫码登录后登录态保存在浏览器中，Agent 后续采集无需再打断你。
+- 首次扫码登录后登录态保存在浏览器中，Agent 后续采集无需再打断你；
+- 纯数据采集无需启动任何本地服务；需要界面时再按阶段 3 启动 API + WebUI。
 
 > ⚠️ **合规提醒**：请小规模采集公开数据，遵守目标平台条款与 robots.txt；项目许可证仅限学习研究用途。
 
