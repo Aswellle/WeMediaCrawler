@@ -130,3 +130,49 @@ async def test_weibo_inline_sub_comments_share_quota(monkeypatch):
     # 可用 15 条内嵌子评论（5×3），配额 10 → 应恰好截断到 10
     assert len(subs) == 10, f"内嵌子评论应被截断到配额: {len(subs)}"
     assert len(stored) == 10
+
+
+@pytest.mark.asyncio
+async def test_zhihu_sub_comments_share_quota(monkeypatch):
+    """知乎一级评论与子评论共享配额（此前完全忽略 max_count，实测 5 配额得 639 条）"""
+    from model.m_zhihu import ZhihuComment, ZhihuContent
+    from media_platform.zhihu.client import ZhiHuClient
+
+    monkeypatch.setattr(config, "ENABLE_GET_SUB_COMMENTS", True)
+    client = ZhiHuClient.__new__(ZhiHuClient)
+
+    content = ZhihuContent(content_id="z1", content_type="article")
+    stored = []
+
+    async def callback(comments):
+        stored.extend(comments)
+
+    async def fake_root(content_id, content_type, offset, limit):
+        return {
+            "paging": {"is_end": False, "offset": f"next{offset}"},
+            "data": [{"id": f"root-{offset}-{i}"} for i in range(10)],
+        }
+
+    async def fake_child(comment_id, offset, limit):
+        return {
+            "paging": {"is_end": False},
+            "data": [{"id": f"{comment_id}-{i}"} for i in range(10)],
+        }
+
+    class FakeExtractor:
+        def extract_offset(self, paging):
+            return paging.get("offset", "")
+
+        def extract_comments(self, content, data):
+            return [ZhihuComment(comment_id=item["id"], sub_comment_count=3) for item in data or []]
+
+    client._extractor = FakeExtractor()
+    client.get_root_comments = fake_root
+    client.get_child_comments = fake_child
+
+    total = await client.get_note_all_comments(
+        content=content, crawl_interval=0, callback=callback, max_count=7,
+    )
+
+    assert len(stored) == 7, f"配额应恰好用满: {len(stored)}"
+    assert len(total) == 7

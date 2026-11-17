@@ -62,6 +62,9 @@ async def update_xhs_note(note_item: Dict):
 
     """
     note_id = note_item.get("note_id")
+    if not note_id:
+        # 缺主键的脏记录不落盘（与 DB 存储的校验保持一致）
+        return
     user_info = note_item.get("user", {})
     interact_info = note_item.get("interact_info", {})
     tag_list: List[Dict] = note_item.get("tag_list", [])

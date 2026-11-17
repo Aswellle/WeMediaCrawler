@@ -56,7 +56,11 @@ async def update_bilibili_video(video_item: Dict):
     video_item_view: Dict = video_item.get("View")
     video_user_info: Dict = video_item_view.get("owner")
     video_item_stat: Dict = video_item_view.get("stat")
-    video_id = str(video_item_view.get("aid"))
+    aid_value = video_item_view.get("aid")
+    if not aid_value:
+        # 缺主键的脏记录不落盘（与 DB 存储的校验保持一致）
+        return
+    video_id = str(aid_value)
     save_content_item = {
         "video_id": video_id,
         "video_type": "video",

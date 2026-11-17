@@ -21,11 +21,35 @@ import csv
 import json
 import os
 import pathlib
+import threading
 from typing import Dict, List
 import aiofiles
 import config
 from tools.utils import utils
 from tools.words import AsyncWordCloudGenerator
+
+# 同一文件路径的写入锁按 (事件循环, 路径) 共享。
+# 原因：store 工厂每次调用都会 new 一个实现实例（各自持有自己的
+# AsyncFileWriter），实例级 asyncio.Lock 无法阻止多实例并发写同一文件，
+# 会造成 jsonl 丢行/行交错。锁表在模块级，按事件循环隔离，
+# 避免跨 pytest 事件循环复用 Lock 报错。
+_LOCKS: Dict[tuple[int, str], asyncio.Lock] = {}
+_LOCKS_GUARD = threading.Lock()
+
+
+def _file_lock(file_path: str) -> asyncio.Lock:
+    try:
+        loop_key = id(asyncio.get_running_loop())
+    except RuntimeError:  # 无运行中的事件循环
+        loop_key = 0
+    key = (loop_key, file_path)
+    with _LOCKS_GUARD:
+        lock = _LOCKS.get(key)
+        if lock is None:
+            lock = asyncio.Lock()
+            _LOCKS[key] = lock
+        return lock
+
 
 class AsyncFileWriter:
     def __init__(self, platform: str, crawler_type: str):
@@ -45,7 +69,7 @@ class AsyncFileWriter:
 
     async def write_to_csv(self, item: Dict, item_type: str):
         file_path = self._get_file_path('csv', item_type)
-        async with self.lock:
+        async with _file_lock(file_path):
             file_exists = os.path.exists(file_path)
             async with aiofiles.open(file_path, 'a', newline='', encoding='utf-8-sig') as f:
                 writer = csv.DictWriter(f, fieldnames=item.keys())
@@ -55,13 +79,13 @@ class AsyncFileWriter:
 
     async def write_to_jsonl(self, item: Dict, item_type: str):
         file_path = self._get_file_path('jsonl', item_type)
-        async with self.lock:
+        async with _file_lock(file_path):
             async with aiofiles.open(file_path, 'a', encoding='utf-8') as f:
                 await f.write(json.dumps(item, ensure_ascii=False) + '\n')
 
     async def write_single_item_to_json(self, item: Dict, item_type: str):
         file_path = self._get_file_path('json', item_type)
-        async with self.lock:
+        async with _file_lock(file_path):
             existing_data = []
             if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
                 async with aiofiles.open(file_path, 'r', encoding='utf-8') as f:

@@ -247,6 +247,7 @@ class ZhihuCrawler(AbstractCrawler):
                 content=content_item,
                 crawl_interval=config.CRAWLER_MAX_SLEEP_SEC,
                 callback=zhihu_store.batch_update_zhihu_note_comments,
+                max_count=config.CRAWLER_MAX_COMMENTS_COUNT_SINGLENOTES,
             )
 
     async def get_creators_and_notes(self) -> None:
