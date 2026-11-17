@@ -205,13 +205,13 @@ You are the data collection engineer of this repository. Deploy and collect from
 
 > ⚠️ **Compliance Reminder**: Collect public data at a small scale, and respect the target platform's terms and robots.txt; the project license is for learning and research purposes only.
 
-> ⚠️ **Backend Service Reminder**: The following WebUI visual interface depends on the backend API service to run. Before first use, please **start the backend separately first**:
+> ⚠️ **Backend Service Reminder**: The following WebUI visual interface depends on the backend API service to run. Before first use, please **start the backend separately first** (when using the frontend dev server, use port 8083 to match the `/api` proxy target):
 >
 > ```shell
-> uv run uvicorn api.main:app --port 8080 --reload
+> uv run uvicorn api.main:app --port 8083 --reload
 > ```
 >
-> After the backend starts successfully, open the WebUI interface (`http://localhost:5173/` or `http://localhost:8080`). If the backend is not started, the page will call `/api/env/check` for an environment check on first visit and fail. At this point, you can click "Skip Check" to bypass it temporarily, but crawler functionality will be unavailable.
+> After the backend starts successfully, open the WebUI interface (`http://localhost:5173/`). If the backend is not started, the page will call `/api/env/check` for an environment check on first visit and fail. At this point, you can click "Skip Check" to bypass it temporarily, but crawler functionality will be unavailable.
 
 ## 🖥️ WebUI Visual Operation Interface
 
@@ -222,13 +222,13 @@ WeMediaCrawler provides a web-based visual operation interface, allowing you to 
 For development, you need to start both the backend API service and the frontend Vite dev server:
 
 ```shell
-# Terminal 1: start API server (default port 8080)
-uv run uvicorn api.main:app --port 8080 --reload
+# Terminal 1: start API server (the frontend dev server proxies /api to 8083, so use 8083 here)
+uv run uvicorn api.main:app --port 8083 --reload
 
 # Terminal 2: start frontend dev server
 cd webui
 npm install
-npm run dev        # starts on port 5173 by default and proxies /api to 8080
+npm run dev        # starts on port 5173 and proxies /api to 8083
 ```
 
 After successful startup, visit `http://localhost:5173/` to open the WebUI interface.
@@ -242,10 +242,10 @@ If you want the API server to serve the WebUI static assets directly, build the 
 ```shell
 cd webui
 npm install
-npm run build      # outputs to api/webui/
+npm run build      # output goes to gh-pages-dist/
 ```
 
-Then start only the API server:
+After building, copy the output into the directory served by the API server (`api/webui/`), then start the API server:
 
 ```shell
 uv run uvicorn api.main:app --port 8080 --reload
@@ -283,9 +283,14 @@ WeMediaCrawler supports multiple data storage methods, including CSV, JSON, JSON
 - **SMS Forwarding**: [SmsForwarder reference repository](https://github.com/pppscn/SmsForwarder)
 - **Intrusion Penetration Tool**: [ngrok official documentation](https://ngrok.com/docs/)
 
+---
+## ⭐ Support This Project
+
+If WeMediaCrawler has been helpful to you, a ⭐️ Star would be much appreciated!
+
+Every bit of support keeps me improving it.
 
 ---
-
 # Disclaimer
 
 This repository contains two disclaimers:
@@ -325,16 +330,25 @@ The right to interpret this disclaimer belongs to the original project developer
 
 ## II. Fork Branch Disclaimer
 
-> The following disclaimer is provided by Aswellle for the modifications made in this fork branch (including but not limited to WebUI, interactive experience, etc.).
+> This fork is maintained by **Aswellle** ([https://github.com/Aswellle/WeMediaCrawler](https://github.com/Aswellle/WeMediaCrawler)).
 
-### 1. Scope of Modifications
-This fork branch is modified by Aswellle based on the original project code. The scope of modifications includes the WebUI frontend, API backend logic, project structure optimization, and more.
+### 1. Nature of the Branch
+This repository is an independent fork of [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler). This fork applies UI/UX improvements and feature enhancements on top of the original project (see the [Branch Contributions](#-branch-contributions) section above).
 
-### 2. Disclaimer for Modifications
-Issues arising from modifications in this fork branch (including but not limited to code defects, functional abnormalities, data loss, etc.) are the responsibility of Aswellle. Users should evaluate the risks themselves when using this fork branch.
+### 2. Division of Responsibility
+- Copyright and responsibility for the **original project code** (crawler core logic, platform crawling implementations, storage layer, proxy/cache infrastructure, etc.) belong to the original author NanmiCoder/relakkes.
+- **This fork's modifications** (WebUI redesign, interaction experience optimization, and all code added or modified in this branch) are the corresponding right and responsibility of Aswellle.
+- Users of this fork should be aware that these modifications have not been reviewed by the original author, who bears no responsibility for them.
 
-### 3. Copyright Notice
-The copyright of the original project belongs to NanmiCoder/relakkes. The copyright of modifications made in this fork branch belongs to Aswellle. When distributing or using this fork branch, users shall retain the original project's copyright and modification copyright notices at the same time.
+### 3. Usage Notice
+- This fork is **for learning and research purposes only**. Commercial use or any illegal purpose is strictly prohibited.
+- This fork is licensed under the original project's [NON-COMMERCIAL LEARNING LICENSE 1.1](LICENSE); the terms of that license remain in effect for the fork as a whole.
+- For any legal liability or loss arising from the use of this fork (including both original code and modifications), Aswellle bears responsibility only for the parts they modified and assumes no liability for direct or indirect damages.
+- If modifications in this fork change the original project's architecture, users should assess the related risks themselves.
 
-### 4. Issue Feedback
-If you find issues originating from **modifications in this fork** (WebUI, interactive experience, etc.), please provide feedback via this repository's [Issues](https://github.com/Aswellle/WeMediaCrawler/issues).
+### 4. Intellectual Property Statement
+Copyright of code added or modified in this fork belongs to Aswellle; copyright of the original project code remains with relakkes@gmail.com. Using this fork means you acknowledge and agree to all terms of this disclaimer and the original project license.
+
+### 5. Feedback and Issues
+- If an issue originates from **original project code**, please report it to [NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler/issues).
+- If an issue originates from **this fork's modifications** (WebUI, interaction experience, etc.), please report it via this repository's [Issues](https://github.com/Aswellle/WeMediaCrawler/issues).
