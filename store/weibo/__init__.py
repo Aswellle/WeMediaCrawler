@@ -84,6 +84,9 @@ async def update_weibo_note(note_item: Dict):
     mblog: Dict = note_item.get("mblog") or {}
     user_info: Dict = mblog.get("user") or {}
     note_id = mblog.get("id")
+    if not note_id:
+        # 缺主键的脏记录不落盘（与 DB 存储的校验保持一致）
+        return
     content_text = mblog.get("text")
     clean_text = re.sub(r"<.*?>", "", content_text)
     # 教学版：原始 user_id 匿名化为 creator_hash，昵称脱敏；

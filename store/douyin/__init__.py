@@ -94,6 +94,9 @@ def _extract_music_download_url(aweme_detail: Dict) -> str:
 
 async def update_douyin_aweme(aweme_item: Dict):
     aweme_id = aweme_item.get("aweme_id")
+    if not aweme_id:
+        # 缺主键的脏记录不落盘（与 DB 存储的校验保持一致）
+        return
     user_info = aweme_item.get("author", {})
     interact_info = aweme_item.get("statistics", {})
     save_content_item = {
