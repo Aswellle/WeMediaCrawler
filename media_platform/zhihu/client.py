@@ -290,6 +290,7 @@ class ZhiHuClient(AbstractApiClient, ProxyRefreshMixin):
         content: ZhihuContent,
         crawl_interval: float = 1.0,
         callback: Optional[Callable] = None,
+        max_count: int = 10,
     ) -> List[ZhihuComment]:
         """
         Get all root-level comments for a specified post, this method will retrieve all comment information under a post
@@ -297,6 +298,7 @@ class ZhiHuClient(AbstractApiClient, ProxyRefreshMixin):
             content: Content detail object (question|article|video)
             crawl_interval: Crawl delay interval in seconds
             callback: Callback after completing one crawl
+            max_count: Maximum number of comments (including sub-comments) to crawl per content
 
         Returns:
 
@@ -306,7 +308,7 @@ class ZhiHuClient(AbstractApiClient, ProxyRefreshMixin):
         offset: str = ""
         prev_offset: str = ""
         limit: int = 10
-        while not is_end:
+        while not is_end and len(result) < max_count:
             prev_offset = offset
             root_comment_res = await self.get_root_comments(content.content_id, content.content_type, offset, limit)
             if not root_comment_res:
@@ -322,11 +324,23 @@ class ZhiHuClient(AbstractApiClient, ProxyRefreshMixin):
             if prev_offset == offset:
                 break
 
+            # 一级评论与子评论共享单条内容配额
+            if len(result) + len(comments) > max_count:
+                comments = comments[: max_count - len(result)]
+
             if callback:
                 await callback(comments)
 
             result.extend(comments)
-            await self.get_comments_all_sub_comments(content, comments, crawl_interval=crawl_interval, callback=callback)
+            if len(result) >= max_count:
+                break
+            await self.get_comments_all_sub_comments(
+                content,
+                comments,
+                crawl_interval=crawl_interval,
+                callback=callback,
+                max_count=max_count - len(result),
+            )
             await asyncio.sleep(crawl_interval)
         return result
 
@@ -336,14 +350,16 @@ class ZhiHuClient(AbstractApiClient, ProxyRefreshMixin):
         comments: List[ZhihuComment],
         crawl_interval: float = 1.0,
         callback: Optional[Callable] = None,
+        max_count: int = 10,
     ) -> List[ZhihuComment]:
         """
-        Get all sub-comments under specified comments
+        Get all sub-comments under specified comments, up to max_count in total
         Args:
             content: Content detail object (question|article|video)
             comments: Comment list
             crawl_interval: Crawl delay interval in seconds
             callback: Callback after completing one crawl
+            max_count: Maximum number of sub-comments to crawl for this batch
 
         Returns:
 
@@ -353,6 +369,8 @@ class ZhiHuClient(AbstractApiClient, ProxyRefreshMixin):
 
         all_sub_comments: List[ZhihuComment] = []
         for parment_comment in comments:
+            if len(all_sub_comments) >= max_count:
+                break
             if parment_comment.sub_comment_count == 0:
                 continue
 
@@ -360,7 +378,7 @@ class ZhiHuClient(AbstractApiClient, ProxyRefreshMixin):
             offset: str = ""
             prev_offset: str = ""
             limit: int = 10
-            while not is_end:
+            while not is_end and len(all_sub_comments) < max_count:
                 prev_offset = offset
                 child_comment_res = await self.get_child_comments(parment_comment.comment_id, offset, limit)
                 if not child_comment_res:
@@ -375,6 +393,9 @@ class ZhiHuClient(AbstractApiClient, ProxyRefreshMixin):
 
                 if prev_offset == offset:
                     break
+
+                if len(all_sub_comments) + len(sub_comments) > max_count:
+                    sub_comments = sub_comments[: max_count - len(all_sub_comments)]
 
                 if callback:
                     await callback(sub_comments)
