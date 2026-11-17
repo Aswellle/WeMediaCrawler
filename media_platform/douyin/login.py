@@ -108,26 +108,69 @@ class DouYinLogin(AbstractLogin):
 
         return False
 
+    # 登录面板候选选择器：抖音多次更换面板 DOM ID
+    # （旧版 login-panel-new，现版 login-full-panel-*），任一命中即认为已弹出
+    _LOGIN_PANEL_SELECTORS = (
+        "xpath=//div[@id='login-panel-new']",
+        "xpath=//div[starts-with(@id, 'login-full-panel')]",
+        "xpath=//div[contains(@class, 'login-panel') or contains(@class, 'login-full-panel')]",
+    )
+    # 兜底"登录"入口候选：新版面板遮挡旧按钮，点击需绕过遮挡检测
+    _LOGIN_BUTTON_SELECTORS = (
+        "xpath=//p[text() = '登录']",
+        "xpath=//button[.//text() = '登录' or contains(., '登录')]",
+        "xpath=//*[contains(@class, 'login-btn') or @data-e2e='login-icon']",
+    )
+
     async def popup_login_dialog(self):
         """If the login dialog box does not pop up automatically, we will manually click the login button"""
-        dialog_selector = "xpath=//div[@id='login-panel-new']"
-        try:
-            # check dialog box is auto popup and wait for 10 seconds
-            await self.context_page.wait_for_selector(dialog_selector, timeout=1000 * 10)
-        except Exception as e:
-            utils.logger.error(f"[DouYinLogin.popup_login_dialog] login dialog box does not pop up automatically, error: {e}")
-            utils.logger.info("[DouYinLogin.popup_login_dialog] login dialog box does not pop up automatically, we will manually click the login button")
-            login_button_ele = self.context_page.locator("xpath=//p[text() = '登录']")
-            await login_button_ele.click()
-            await asyncio.sleep(0.5)
+        # 任一面板候选可见即认为已自动弹出
+        for dialog_selector in self._LOGIN_PANEL_SELECTORS:
+            try:
+                await self.context_page.wait_for_selector(dialog_selector, timeout=1000 * 10 // len(self._LOGIN_PANEL_SELECTORS))
+                utils.logger.info(f"[DouYinLogin.popup_login_dialog] login panel detected: {dialog_selector}")
+                return
+            except Exception:
+                continue
+
+        utils.logger.error("[DouYinLogin.popup_login_dialog] login dialog box does not pop up automatically")
+        utils.logger.info("[DouYinLogin.popup_login_dialog] login dialog box does not pop up automatically, we will manually click the login button")
+        for button_selector in self._LOGIN_BUTTON_SELECTORS:
+            try:
+                login_button_ele = self.context_page.locator(button_selector)
+                # force=True：旧入口可能被新版面板的透明遮罩拦截指针事件，
+                # 但点击本身只是唤起面板，强制点击即可达成目的
+                await login_button_ele.click(timeout=10_000, force=True)
+                await asyncio.sleep(0.5)
+                return
+            except Exception as e:
+                utils.logger.info(
+                    f"[DouYinLogin.popup_login_dialog] login button candidate failed "
+                    f"({button_selector}): {e}, trying next ..."
+                )
+        raise RuntimeError(
+            "[DouYinLogin.popup_login_dialog] 未能唤起抖音登录面板：所有面板检测与登录入口候选均失败。"
+            "可能是抖音页面改版或出现风控验证码，请人工打开抖音确认页面状态后重试。"
+        )
 
     async def login_by_qrcode(self):
         utils.logger.info("[DouYinLogin.login_by_qrcode] Begin login douyin by qrcode...")
-        qrcode_img_selector = "xpath=//div[@id='animate_qrcode_container']//img"
-        base64_qrcode_img = await utils.find_login_qrcode(
-            self.context_page,
-            selector=qrcode_img_selector
+        # 二维码图片候选：新版登录面板的 DOM 与旧版不同，逐个候选探测
+        qrcode_img_selectors = (
+            "xpath=//div[@id='animate_qrcode_container']//img",
+            "xpath=//div[starts-with(@id, 'login-full-panel')]//img",
+            "xpath=//div[contains(@class, 'qrcode') or contains(@class, 'QrCode')]//img",
+            "xpath=//img[contains(@src, 'qrcode') or contains(@src, 'data:image')]",
         )
+        base64_qrcode_img = ""
+        for selector in qrcode_img_selectors:
+            base64_qrcode_img = await utils.find_login_qrcode(
+                self.context_page,
+                selector=selector
+            )
+            if base64_qrcode_img:
+                utils.logger.info(f"[DouYinLogin.login_by_qrcode] qrcode found via {selector}")
+                break
         if not base64_qrcode_img:
             utils.logger.info("[DouYinLogin.login_by_qrcode] login qrcode not found please confirm ...")
             sys.exit()

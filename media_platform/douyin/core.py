@@ -286,12 +286,20 @@ class DouYinCrawler(AbstractCrawler):
                 utils.logger.error(f"[DouYinCrawler.get_creators_and_videos] Failed to parse creator URL: {e}")
                 continue
 
-            creator_info: Dict = await self.dy_client.get_user_info(user_id)
-            if creator_info:
-                await douyin_store.save_creator(user_id, creator=creator_info)
+            # 单个创作者失败（风控/网络/权限）只跳过该创作者，不中断整轮采集
+            try:
+                creator_info: Dict = await self.dy_client.get_user_info(user_id)
+                if creator_info:
+                    await douyin_store.save_creator(user_id, creator=creator_info)
 
-            # Get all video information of the creator
-            all_video_list = await self.dy_client.get_all_user_aweme_posts(sec_user_id=user_id, callback=self.fetch_creator_video_detail)
+                # Get all video information of the creator
+                all_video_list = await self.dy_client.get_all_user_aweme_posts(sec_user_id=user_id, callback=self.fetch_creator_video_detail)
+            except Exception as e:
+                utils.logger.error(
+                    f"[DouYinCrawler.get_creators_and_videos] Failed to collect creator {user_id}: {e}. "
+                    f"跳过该创作者，继续下一个"
+                )
+                continue
 
             video_ids = [video_item.get("aweme_id") for video_item in all_video_list]
             await self.batch_get_note_comments(video_ids)

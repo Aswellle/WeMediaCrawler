@@ -93,7 +93,21 @@ class BaiduTieBaLogin(AbstractLogin):
             # if this website does not automatically popup login dialog box, we will manual click login button
             await asyncio.sleep(0.5)
             login_button_ele = self.context_page.locator("xpath=//li[@class='u_login']")
-            await login_button_ele.click()
+            try:
+                await login_button_ele.click(timeout=15_000)
+            except Exception as e:
+                # 新会话常命中百度安全验证/风控页，登录入口根本不存在。
+                # 明确失败并给出人工处理建议，而不是裸 traceback。
+                page_title = ""
+                try:
+                    page_title = await self.context_page.title()
+                except Exception:
+                    pass
+                sys.exit(
+                    f"[BaiduTieBaLogin.login_by_qrcode] 无法到达贴吧登录入口（当前页面标题: {page_title or '未知'}）。"
+                    f"常见原因：新会话触发百度安全验证（需人工在浏览器中完成验证后再运行），"
+                    f"或贴吧页面改版导致登录入口选择器失效。原始错误: {e}"
+                )
             base64_qrcode_img = await utils.find_login_qrcode(
                 self.context_page,
                 selector=qrcode_img_selector

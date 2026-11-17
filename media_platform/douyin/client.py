@@ -320,14 +320,18 @@ class DouYinClient(AbstractApiClient, ProxyRefreshMixin):
                     sub_comments_has_more = 1
                     sub_comments_cursor = 0
 
-                    while sub_comments_has_more:
+                    # 子评论与一级评论共享 max_count 配额：热门评论的数万条
+                    # 子评论不得无视配置一直翻页（实机验证发现）
+                    while sub_comments_has_more and len(result) < max_count:
                         sub_comments_res = await self.get_sub_comments(aweme_id, comment_id, sub_comments_cursor)
                         sub_comments_has_more = sub_comments_res.get("has_more", 0)
                         sub_comments_cursor = sub_comments_res.get("cursor", 0)
                         sub_comments = sub_comments_res.get("comments", [])
 
                         if not sub_comments:
-                            continue
+                            break
+                        if len(result) + len(sub_comments) > max_count:
+                            sub_comments = sub_comments[: max_count - len(result)]
                         result.extend(sub_comments)
                         if callback:  # If there is a callback function, execute the callback function
                             await callback(aweme_id, sub_comments)
