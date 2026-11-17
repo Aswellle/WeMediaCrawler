@@ -50,6 +50,8 @@
 - **质量保障** — 新增媒体获取、导出格式 × 平台、限流与开关等回归矩阵，覆盖真实数据库驱动与真实音视频合流验证
 - **AI Agent 友好** — 快速开始提供可直接交给 AI 编程助手的端到端提示词，从克隆到产出无需改动代码
 
+> 本分支的全部提交与变更记录可通过 [GitHub Compare View](https://github.com/NanmiCoder/MediaCrawler/compare...Aswellle:WeMediaCrawler:main) 查看。
+
 ---
 
 ## 📖 项目简介
@@ -203,13 +205,13 @@ uv run main.py --help
 
 > ⚠️ **合规提醒**：请小规模采集公开数据，遵守目标平台条款与 robots.txt；项目许可证仅限学习研究用途。
 
-> ⚠️ **后端服务提醒**：以下 WebUI 可视化界面依赖后端 API 服务才能运行。首次使用前，请**先单独启动后端**：
+> ⚠️ **后端服务提醒**：以下 WebUI 可视化界面依赖后端 API 服务才能运行。首次使用前，请**先单独启动后端**（用前端开发服务器时端口为 8083，与 `/api` 代理目标一致）：
 >
 > ```shell
-> uv run uvicorn api.main:app --port 8080 --reload
+> uv run uvicorn api.main:app --port 8083 --reload
 > ```
 >
-> 后端启动成功后，再打开 WebUI 界面（`http://localhost:5173/` 或 `http://localhost:8080`）。若后端未启动，页面首次会调用 `/api/env/check` 进行环境检测并失败，此时可点击「跳过检测」临时跳过，但爬虫功能将不可用。
+> 后端启动成功后，再打开 WebUI 界面（`http://localhost:5173/`）。若后端未启动，页面首次会调用 `/api/env/check` 进行环境检测并失败，此时可点击「跳过检测」临时跳过，但爬虫功能将不可用。
 
 ## 🖥️ WebUI 可视化操作界面
 
@@ -220,13 +222,13 @@ WeMediaCrawler 提供了基于 Web 的可视化操作界面，无需命令行也
 开发时需要同时启动后端 API 服务和前端 Vite 开发服务器：
 
 ```shell
-# 终端 1：启动 API 服务器（默认端口 8080）
-uv run uvicorn api.main:app --port 8080 --reload
+# 终端 1：启动 API 服务器（前端开发服务器把 /api 代理到 8083，故此处用 8083）
+uv run uvicorn api.main:app --port 8083 --reload
 
 # 终端 2：启动前端开发服务器
 cd webui
 npm install
-npm run dev        # 默认在 5173 端口启动，并代理 /api 到 8080
+npm run dev        # 默认在 5173 端口启动，并把 /api 代理到 8083
 ```
 
 启动成功后，访问 `http://localhost:5173/` 即可打开 WebUI 界面。
@@ -240,10 +242,10 @@ npm run dev        # 默认在 5173 端口启动，并代理 /api 到 8080
 ```shell
 cd webui
 npm install
-npm run build      # 产物输出到 api/webui/
+npm run build      # 产物输出到 gh-pages-dist/
 ```
 
-构建完成后，只需启动 API 服务器：
+构建完成后，把产物复制到 API 服务器托管目录（`api/webui/`），然后启动 API 服务器：
 
 ```shell
 uv run uvicorn api.main:app --port 8080 --reload
